@@ -7,7 +7,12 @@ import model
 
 
 def UserAsDict(user, is_admin):
-  return {'id': user.user_id(), 'email': user.email(), 'admin': is_admin}
+  return {
+    'id': user.user_id(), 
+    'email': user.email(), 
+    'admin': is_admin,
+    'nickname': user.nickname()
+  }
 
 # parent handler class 
 class RestHandler(webapp2.RequestHandler):
@@ -31,10 +36,10 @@ class UserHandler(RestHandler):
       self.redirect(users.create_logout_url('/'))
     else:
         user = users.get_current_user()
-        if user:
+        if user != None:
           self.SendJson(UserAsDict(user, users.is_current_user_admin()))
         else:
-          self.SendJson({user: None})
+          self.SendJson({'user': None})
 
 
 class QueryHandler(RestHandler):

@@ -2,6 +2,26 @@
 
 var KnobSock = angular.module('KnobSock', ['ngRoute']);
 
+// KnobSock.run(function($rootScope, $location, $http) {
+//     $rootScope.$on("$routeChangeStart", function(event, next, current) {
+//         $http.get('/api/user/me').then(function(results) {
+//             if (results.user != null) {
+//                 $rootScope.authenticated = true;
+//                 $rootScope.user = results;
+//             } 
+//             else {
+//               $rootScope.user = null;
+//               var nextUrl = next.$$route.originalPath;
+//               if (nextUrl == '/api/user/signup' || nextUrl == '/api/user/login') {
+//                 window.location = nextUrl;
+//               } else {
+//                 window.location = "/api/user/login";
+//               }
+//             }
+//         });
+//     });
+// });
+
 KnobSock.factory('guestService', function($rootScope, $http, $q, $log) {
   $rootScope.status = 'Retrieving data...';
   var deferred = $q.defer();

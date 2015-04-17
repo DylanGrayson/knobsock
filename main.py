@@ -1,8 +1,8 @@
 import json
 import webapp2
 import time
-import google.appengine.api.users as users
-
+from google.appengine.api import users
+from google.appengine.ext import ndb
 import model
 
 
@@ -59,15 +59,20 @@ class GroupHandler(RestHandler):
             groups = model.ListGroups(user)
             self.SendJson(GroupsAsDict(groups))
 
+class KnobHandler(RestHandler):
+
+    def get(self, parent_hash):
+        parent_key = ndb.Key(urlsafe=parent_hash)
+        parent = parent_key.get()
+        #knobs = model.ListKnobs(parent)
+        self.response.write(parent_key)
 
 class GroupCreateHandler(RestHandler):
 
     def get(self):
       user = users.get_current_user()
       if user != None:
-        group1 = model.Group(name="clown", members=[user])
-        #UNCOMMENT BELOW to put a test group in under your username
-        #group1.put()
+        group1 = model.CreateGroup("Princeton")
 
     def post(self):
         r = json.loads(self.request.body)
@@ -105,7 +110,7 @@ class DeleteHandler(RestHandler):
     def post(self):
         r = json.loads(self.request.body)
         model.DeleteGuest(r['id'])
-
+        
 
 APP = webapp2.WSGIApplication([
     ('/api/query', QueryHandler),
@@ -115,4 +120,5 @@ APP = webapp2.WSGIApplication([
     (r'/api/user/.*', UserHandler),
     (r'/api/groups/create', GroupCreateHandler),
     (r'/api/groups/.*', GroupHandler),
+    (r'/api/knobs/(.*)', KnobHandler),
 ], debug=True)

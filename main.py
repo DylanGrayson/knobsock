@@ -6,13 +6,19 @@ import google.appengine.api.users as users
 import model
 
 
-def UserAsDict(user, is_admin):
+def UserAsDict(user):
   return {
     'id': user.user_id(), 
     'email': user.email(), 
-    'admin': is_admin,
+    'admin': users.is_current_user_admin(),
     'nickname': user.nickname()
   }
+
+def GroupsAsDict(groups):
+  group_dict = {'groups': []}
+  for group in groups:
+    group_dict.groups.append({'name': group.name()})
+  return group_dict
 
 # parent handler class 
 class RestHandler(webapp2.RequestHandler):
@@ -37,10 +43,17 @@ class UserHandler(RestHandler):
     else:
         user = users.get_current_user()
         if user != None:
-          self.SendJson(UserAsDict(user, users.is_current_user_admin()))
+          self.SendJson(UserAsDict(user))
         else:
           self.SendJson({'user': None})
 
+class GroupHandler(RestHandler):
+
+  def get(self):
+    user = users.get_current_user()
+    if user != None:
+      groups = model.ListGroups(user)
+      self.SendJson(GroupsAsDict(groups))
 
 class QueryHandler(RestHandler):
 
@@ -80,7 +93,8 @@ APP = webapp2.WSGIApplication([
     ('/api/insert', InsertHandler),
     ('/api/delete', DeleteHandler),
     ('/api/update', UpdateHandler),
-    (r'/api/user/.*', UserHandler)
+    (r'/api/user/.*', UserHandler),
+    (r'/api/groups/.*', GroupHandler),
 ], debug=True)
 
 

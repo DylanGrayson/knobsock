@@ -16,6 +16,9 @@ class Knob(ndb.Model):
 def ListKnobs(parent):
   return Knob.query(parent=parent)
 
+def ListGroups(user):
+  return Group.query(Group.members == user)
+
 # update values of a knob with given ID
 def UpdateKnob(id, name, timeout, sock):
   knob = Knob(id=id, name=name, timeout=timeout, sock=sock)

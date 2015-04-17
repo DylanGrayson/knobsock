@@ -41,7 +41,7 @@ KnobSock.config(['$routeProvider',
         templateUrl: 'partials/splash.html',
         controller: 'SplashCtrl'
       }).
-      when('/dashboard/:phoneId', {
+      when('/dashboard', {
         templateUrl: 'partials/dashboard.html',
         controller: 'DashCtrl'
       }).

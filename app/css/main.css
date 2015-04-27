@@ -11,6 +11,8 @@
 html,
 body {
   height: 100%;
+  width: 100%;
+  margin: 0;
 }
 
 /* Extra markup and styles for table-esque vertical and horizontal centering */
@@ -148,4 +150,8 @@ body {
 
 .navbar-inverse .navbar-nav>li>a{
   font-size: 18px;
+}
+
+.ng-scope{
+  min-height: 100vh;
 }

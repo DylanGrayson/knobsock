@@ -34,19 +34,21 @@ KnobSock.factory('guestService', function($rootScope, $http, $q, $log) {
   return deferred.promise;
 });
 
-KnobSock.config(function($routeProvider) {
-  $routeProvider.when('/', {
-    controller: 'SplashCtrl',
-    templateUrl: '/partials/splash.html',
-  });
-  $routeProvider.when('/dashboard', {
-    controller: 'DashCtrl',
-    templateUrl: '/partials/dashboard.html',
-  });
-  $routeProvider.otherwise({
-    redirectTo: '/'
-  });
-});
+KnobSock.config(['$routeProvider',
+  function($routeProvider) {
+    $routeProvider.
+      when('/', {
+        templateUrl: 'partials/splash.html',
+        controller: 'SplashCtrl'
+      }).
+      when('/dashboard/:phoneId', {
+        templateUrl: 'partials/dashboard.html',
+        controller: 'DashCtrl'
+      }).
+      otherwise({
+        redirectTo: '/'
+      });
+  }]);
 
 KnobSock.controller('SplashCtrl', function($scope, $rootScope, $log, $http, $routeParams, $location, $route) {
 

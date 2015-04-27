@@ -13,9 +13,9 @@ handlers:
   script: main.APP
 
 - url: (.*)/
-  static_files: app\1/index.html
+  static_files: static-html\1/index.html
   upload: app
 
 - url: (.*)
-  static_files: app\1
+  static_files: static-html\1
   upload: app

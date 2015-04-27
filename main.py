@@ -18,7 +18,9 @@ def UserAsDict(user):
 def GroupsAsDict(groups):
     group_dict = {'groups': []}
     for group in groups:
-        new_group = {'name': group.name, 'owner': UserAsDict(group.members[0])}
+        new_group = {'name': group.name, 'members': []}
+        for i in range(len(group.members)):
+            new_group['members'].append(UserAsDict(group.members[i]))
         group_dict["groups"].append(new_group)
     return group_dict
 

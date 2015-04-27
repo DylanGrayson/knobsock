@@ -56,9 +56,13 @@ KnobSock.controller('SplashCtrl', function($scope, $rootScope, $log, $http, $rou
 
 KnobSock.controller('DashCtrl', function($scope, $rootScope, $log, $http, $routeParams, $location, $route) {
 
-    $http.get('/api/groups/cre.json').success(function(data) {
+    $http.get('/api/groups/s.json').success(function(data) {
       $scope.groups = data.groups;
+      $scope.currentGroup = data.groups[0];
     });
+    $scope.setCurrentGroup = function(index) {
+      $scope.currentGroup = $scope.groups[index];
+    };
   $scope.submitInsert = function() {
     var guest = {
       first: $scope.first,
@@ -73,4 +77,3 @@ KnobSock.controller('DashCtrl', function($scope, $rootScope, $log, $http, $route
     $location.path('/');
   }
 });
-

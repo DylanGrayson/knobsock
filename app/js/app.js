@@ -56,6 +56,9 @@ KnobSock.controller('SplashCtrl', function($scope, $rootScope, $log, $http, $rou
 
 KnobSock.controller('DashCtrl', function($scope, $rootScope, $log, $http, $routeParams, $location, $route) {
 
+    $http.get('/api/groups/cre.json').success(function(data) {
+      $scope.groups = data.groups;
+    });
   $scope.submitInsert = function() {
     var guest = {
       first: $scope.first,

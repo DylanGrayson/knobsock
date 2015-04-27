@@ -72,9 +72,9 @@ class GroupCreateHandler(RestHandler):
     def get(self):
       user = users.get_current_user()
       if user != None:
-        group1 = model.Group(name="clown", members=[user])
+        group1 = model.Group(name="Spaghetti", members=[user])
         #UNCOMMENT BELOW to put a test group in under your username
-        #group1.put()
+        group1.put()
 
     def post(self):
         r = json.loads(self.request.body)

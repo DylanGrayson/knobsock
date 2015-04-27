@@ -22,9 +22,7 @@
     <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
       <div class="well well-lg">
         <h3>Groups</h3>
-        <a href="javascript:void(0)" class="btn btn-default btn-lg btn-block btn-raised">Group A</i></a>
-        <a href="javascript:void(0)" class="btn btn-default btn-lg btn-block btn-raised">Group B</a>
-        <a href="javascript:void(0)" class="btn btn-default btn-lg btn-block btn-raised">Group C</a>
+        <a ng-repeat="group in groups" href="javascript:void(0)" class="btn btn-default btn-lg btn-block btn-raised">{{group.name}}</a>
         <button class="btn btn-fab btn-raised btn-material-blue pull-right"><i class="mdi-content-add"></i></button>
       </div>
       <br>

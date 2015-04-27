@@ -1,8 +1,8 @@
 import json
 import webapp2
 import time
-import google.appengine.api.users as users
-
+from google.appengine.api import users
+from google.appengine.ext import ndb
 import model
 
 
@@ -18,7 +18,9 @@ def UserAsDict(user):
 def GroupsAsDict(groups):
     group_dict = {'groups': []}
     for group in groups:
-        new_group = {'name': group.name, 'owner': UserAsDict(group.members[0])}
+        new_group = {'name': group.name, 'members': []}
+        for i in range(len(group.members)):
+            new_group['members'].append(UserAsDict(group.members[i]))
         group_dict["groups"].append(new_group)
     return group_dict
 
@@ -59,15 +61,22 @@ class GroupHandler(RestHandler):
             groups = model.ListGroups(user)
             self.SendJson(GroupsAsDict(groups))
 
+class KnobHandler(RestHandler):
+
+    def get(self, parent_hash):
+        parent_key = ndb.Key(urlsafe=parent_hash)
+        parent = parent_key.get()
+        #knobs = model.ListKnobs(parent)
+        self.response.write(parent_key)
 
 class GroupCreateHandler(RestHandler):
 
     def get(self):
       user = users.get_current_user()
       if user != None:
-        group1 = model.Group(name="clown", members=[user])
+        group1 = model.Group(name="Spaghetti", members=[user])
         #UNCOMMENT BELOW to put a test group in under your username
-        #group1.put()
+        group1.put()
 
     def post(self):
         r = json.loads(self.request.body)
@@ -105,7 +114,7 @@ class DeleteHandler(RestHandler):
     def post(self):
         r = json.loads(self.request.body)
         model.DeleteGuest(r['id'])
-
+        
 
 APP = webapp2.WSGIApplication([
     ('/api/query', QueryHandler),
@@ -115,4 +124,5 @@ APP = webapp2.WSGIApplication([
     (r'/api/user/.*', UserHandler),
     (r'/api/groups/create', GroupCreateHandler),
     (r'/api/groups/.*', GroupHandler),
+    (r'/api/knobs/(.*)', KnobHandler),
 ], debug=True)

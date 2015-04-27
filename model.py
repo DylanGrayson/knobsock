@@ -1,5 +1,5 @@
 from google.appengine.ext import ndb
-
+from google.appengine.api import users
 
 class Group(ndb.Model):
     name = ndb.StringProperty()
@@ -15,12 +15,14 @@ class Knob(ndb.Model):
 
 ### Knob Functions ###
 # get all child knobs of a group
-def ListKnobs(parent):
-    return Knob.query(parent=parent)
+def ListKnobs(p):
+    q = Knob.query()
+    q.filter('__key__>', p.key)
+    return q.fetch()
 
 
 def ListGroups(user):
-    return Group.query(Group.members == user).fetch(10)
+    return Group.query(Group.members == user).fetch()
 
 # update values of a knob with given ID
 

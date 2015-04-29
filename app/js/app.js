@@ -60,6 +60,9 @@ KnobSock.controller('DashCtrl', function($scope, $rootScope, $log, $http, $route
       $scope.groups = data.groups;
       $scope.currentGroup = data.groups[0];
     });
+    $http.get('/api/user/me.json').success(function(data) {
+        $scope.me = data
+    })
     $scope.setCurrentGroup = function(index) {
       $scope.currentGroup = $scope.groups[index];
     };

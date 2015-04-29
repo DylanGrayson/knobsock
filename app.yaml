@@ -13,7 +13,7 @@ handlers:
   script: main.APP
 
 - url: (.*)/
-  static_files: static-html\1/index.html
+  static_files: static-html\1/dashboard.html
   upload: app
 
 - url: (.*)

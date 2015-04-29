@@ -14,6 +14,11 @@ def UserAsDict(user):
         'nickname': user.nickname()
     }
 
+def AllUsersDict(users):
+    users = {'users': []}
+    for user in users:
+        users['users'].append(UserAsDict(user))
+    return users
 
 def GroupsAsDict(groups):
     group_dict = {'groups': []}
@@ -51,7 +56,6 @@ class UserHandler(RestHandler):
                 self.SendJson(UserAsDict(user))
             else:
                 self.SendJson({'user': None})
-
 
 class GroupHandler(RestHandler):
 

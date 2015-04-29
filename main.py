@@ -83,8 +83,10 @@ class GroupCreateHandler(RestHandler):
         group1.put()
 
     def post(self):
+        user = users.get_current_user()
         r = json.loads(self.request.body)
         group = model.CreateGroup(r['group_name'])
+        group.members.append(user);
 
 
 class QueryHandler(RestHandler):

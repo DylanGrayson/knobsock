@@ -21,7 +21,7 @@
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" >Knobsock</a>
+          <a href="/" class="navbar-brand" >Knobsock</a>
         </div>
         <div class="navbar-collapse collapse navbar-inverse-collapse">
           <ul class="nav navbar-nav">
@@ -46,7 +46,10 @@
             <button class="btn btn-fab btn-raised btn-material-blue pull-right"><i class="mdi-content-add"></i></button>
           </div>
           <br>
-          <div id="member_list" class="well well-lg"></div>
+          <div class="well well-lg">
+            <div id="member_list"></div>
+            <button class="btn btn-fab btn-raised btn-material-blue pull-right"><i class="mdi-content-add"></i></button>
+          </div>
           <script id="member_template" type="text/x-handlebars-template">
             <h3>{{curGroup}}</h3>
             <div class="list-group">

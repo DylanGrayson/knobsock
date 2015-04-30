@@ -90,7 +90,7 @@ class UserInviteHandler(RestHandler):
         self.response.write("<html><body><form method='POST' action='/api/user/invite'><input type='text' name='user_name'><input type='submit'></form></body></html>")
 
     def post(self):
-        r = self.request.get('user_name')
+        r = self.request.get('user_name_search')
         q = users.query().filter()
         self.SendJson()
 

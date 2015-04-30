@@ -1,6 +1,6 @@
 import json
 import webapp2
-import time
+import datetime
 from google.appengine.api import users
 from google.appengine.ext import ndb
 import model
@@ -29,6 +29,7 @@ def GroupsAsDict(groups):
             'members': [],
             'key': group.key.urlsafe(),
             'knob': group.knob}
+
         for i in range(len(group.members)):
             new_group['members'].append(UserAsDict(group.members[i]))
         new_group['timein'] = group.timein
@@ -75,11 +76,10 @@ class GroupHandler(RestHandler):
 
 class KnobHandler(RestHandler):
 
-    def get(self, parent_hash):
-        parent_key = ndb.Key(urlsafe=parent_hash)
-        parent = parent_key.get()
-        #knobs = model.ListKnobs(parent)
-        self.response.write(parent_key)
+    def get(self):
+        user = users.get_current_user()
+        if user != None:
+            knobs = model.ListKnobs()
 
 class UserInviteHandler(RestHandler):
 

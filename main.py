@@ -31,10 +31,7 @@ def GroupsAsDict(groups):
             'knob_active': group.knob,
             'members': []
         }
-
-        new_group['timein'] = group.timein
-        new_group['timeout'] = group.timeout
-        new_group['timeleft'] = group.timeout - datetime.datetime.now()
+        
         for i in range(len(group.members)):
             new_group['members'].append(UserAsDict(group.members[i]))
         group_dict["groups"].append(new_group)

@@ -24,8 +24,8 @@ def GroupsAsDict(groups):
             'name': group.name, 
             'members': [],
             'key': group.key.urlsafe(),
-            'knob': group.knob}
-
+            'knob': group.knob
+            }
         for i in range(len(group.members)):
             new_group['members'].append(UserAsDict(group.members[i]))
         new_group['timein'] = str(group.timein)
@@ -103,6 +103,7 @@ class UserInviteHandler(RestHandler):
       user = users.get_current_user()
       if user != None:
         self.response.headers['content-type'] = 'text/html'
+        self.response.write(self.request.get(''))
         self.response.write("<html><body><form method='POST' action='/api/user/invite'><input type='text' name='user_name'><input type='submit'></form></body></html>")
 
     def post(self):
@@ -112,8 +113,9 @@ class UserInviteHandler(RestHandler):
         usr = query.get()
         if usr != None:
             u = users.User(usr.username, usr.userid)
-            self.response.write(group_key)
-        #self.redirect('/')
+            group = ndb.Key(urlsafe=group_key)
+            group.members.append(u)
+        self.redirect('/')
 
 
 

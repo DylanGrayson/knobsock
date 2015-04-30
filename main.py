@@ -36,7 +36,7 @@ def GroupsAsDict(groups):
             new_group['members'].append(UserAsDict(group.members[i]))
         new_group['timein'] = str(group.timein)
         new_group['timeout'] = str(group.timeout)
-        new_group['servertime'] = time.time()
+        new_group['servertime'] = str(datetime.datetime.now())
         group_dict["groups"].append(new_group)
     return group_dict
 

@@ -54,7 +54,7 @@ updateSocks = function() {
         if (current_groups[i].knob == true) {
             var sock_context = {
                 'group_name': current_groups[i].name,
-                'time_remaining': Date.parse(current_groups[i].timeout) - current_groups[i].servertime
+                'time_remaining': Date.parse(current_groups[i].timeout) - Date.parse(current_groups[i].servertime)
             };
             var sock_html = active_sock_template(sock_context);
             $('#sock-container').append(sock_html);

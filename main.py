@@ -108,13 +108,14 @@ class UserInviteHandler(RestHandler):
 
     def post(self):
         r = self.request.get('user_name_search')
-        group_key = self.request.get('group_key')
+        group_key = ndb.Key(urlsafe=self.request.get('group_key'))
         query = model.UserProfile.query(model.UserProfile.username == r)
         usr = query.get()
         if usr != None:
             u = users.User(usr.username, usr.userid)
-            group = ndb.Key(urlsafe=group_key)
+            group = group_key.get()
             group.members.append(u)
+            group.put()
         self.redirect('/')
 
 

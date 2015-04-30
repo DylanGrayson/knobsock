@@ -136,14 +136,16 @@
             </div>
             <div class="modal-body">
               <br>
+              <form method='POST' action='/api/groups/create'>
               <div class="form-group-material-blue">
-                <input class="form-control floating-label" id="focusedInput" type="text" placeholder="Start typing a group name">
+                <input class="form-control floating-label thegroup" id="focusedInput" type="text"  name ="group_name" placeholder="Start typing a group name">
               </div>
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-              <button type="button" class="btn btn-material-blue">Create Group</button>
+              <input type="submit" class="btn btn-material-blue savegroup">
             </div>
+            </form>
             </div><!-- /.modal-content -->
             </div><!-- /.modal-dialog -->
             </div><!-- /.modal -->

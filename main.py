@@ -7,7 +7,6 @@ from google.appengine.api import users
 from google.appengine.ext import ndb
 import model
 import time
-import logging
 
 
 def UserAsDict(user):
@@ -35,7 +34,6 @@ def GroupsAsDict(groups):
 
 # parent handler class
 
-
 class RestHandler(webapp2.RequestHandler):
 
     def dispatch(self):
@@ -45,7 +43,6 @@ class RestHandler(webapp2.RequestHandler):
     def SendJson(self, r):
         self.response.headers['content-type'] = 'text/plain'
         self.response.write(json.dumps(r))
-
 
 class UserHandler(RestHandler):
 
@@ -141,46 +138,7 @@ class GroupCreateHandler(RestHandler):
         group.put()
         self.redirect('/')
 
-
-
-class QueryHandler(RestHandler):
-
-    def get(self):
-        guests = model.AllGuests()
-        r = [AsDict(guest) for guest in guests]
-        self.SendJson(r)
-
-
-class UpdateHandler(RestHandler):
-
-    def post(self):
-        r = json.loads(self.request.body)
-        guest = model.UpdateGuest(r['id'], r['first'], r['last'])
-        r = AsDict(guest)
-        self.SendJson(r)
-
-
-class InsertHandler(RestHandler):
-
-    def post(self):
-        r = json.loads(self.request.body)
-        guest = model.InsertGuest(r['first'], r['last'])
-        r = AsDict(guest)
-        self.SendJson(r)
-
-
-class DeleteHandler(RestHandler):
-
-    def post(self):
-        r = json.loads(self.request.body)
-        model.DeleteGuest(r['id'])
-        
-
 APP = webapp2.WSGIApplication([
-    ('/api/query', QueryHandler),
-    ('/api/insert', InsertHandler),
-    ('/api/delete', DeleteHandler),
-    ('/api/update', UpdateHandler),
     ('/api/user/invite', UserInviteHandler),
     (r'/api/user/.*', UserHandler),
     (r'/api/groups/create', GroupCreateHandler),

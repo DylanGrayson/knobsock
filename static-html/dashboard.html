@@ -28,7 +28,7 @@
           <ul class="nav navbar-nav">
           </ul>
           <ul class="nav navbar-nav navbar-right">
-            <li><a href="javascript:void(0)">Sign Out</a></li>
+            <li><a href="/api/user/logout">Sign Out</a></li>
           </ul>
         </div>
       </div>
@@ -94,7 +94,9 @@
                 <div class="progress progress-striped active">
                   <div class="progress-bar progress-bar-material-blue" style="width: 45%"></div>
                 </div>
+                <a class="btn btn-fab btn-raised btn-material-blue pull-right"><i class="mdi-action-lock-outline"></i></a>
               </div>
+              <br>
             </div>
 
             <script id="inactive-sock-template" type="text/x-handlebars-template">
@@ -113,8 +115,9 @@
                 <hr>
                 <div class="slider slider-material-blue" id="{{group_slider}}"></div>
                 <h5>The sock will be set for <span id="{{group_minutes}}" ></span> minutes</h5>
+                <a  class="btn btn-fab btn-raised btn-material-blue pull-right"><i class="mdi-action-lock-open"></i></a>
               </div>
-            </script>
+
 
             <script id="no-knobs-template" type="text/x-handlebars-template">
               <div class="well well-lg">
@@ -145,7 +148,7 @@
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-              <button type="button" class="btn btn-material-blue" id ="savegroup" onclick="createGroup()">Submit</button>
+              <input type="button" class="btn btn-material-blue" id ="savegroup" onclick="createGroup()" value="Add">
             </div>
             </form>
             </div><!-- /.modal-content -->

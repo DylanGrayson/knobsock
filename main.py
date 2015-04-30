@@ -4,8 +4,7 @@ import datetime
 from google.appengine.api import users
 from google.appengine.ext import ndb
 import model
-import logging
-import cgi
+import time
 
 
 def UserAsDict(user):
@@ -27,16 +26,15 @@ def GroupsAsDict(groups):
     for group in groups:
         new_group = {
             'name': group.name, 
+            'members': [],
             'key': group.key.urlsafe(),
-            'knob_active': group.knob,
-            'members': []
-        }
+            'knob': group.knob}
 
-        new_group['timein'] = group.timein
-        new_group['timeout'] = group.timeout
-        new_group['timeleft'] = group.timeout - datetime.datetime.now()
         for i in range(len(group.members)):
             new_group['members'].append(UserAsDict(group.members[i]))
+        new_group['timein'] = group.timein
+        new_group['timeout'] = group.timeout
+        new_group['servertime'] = time.time()
         group_dict["groups"].append(new_group)
     return group_dict
 
@@ -83,6 +81,19 @@ class KnobHandler(RestHandler):
         if user != None:
             knobs = model.ListKnobs()
 
+class UserInviteHandler(RestHandler):
+
+    def get(self):
+      user = users.get_current_user()
+      if user != None:
+        self.response.headers['content-type'] = 'text/html'
+        self.response.write("<html><body><form method='POST' action='/api/user/invite'><input type='text' name='user_name'><input type='submit'></form></body></html>")
+
+    def post(self):
+        r = self.request.get('user_name')
+        q = users.query().filter()
+        self.SendJson()
+
 class GroupCreateHandler(RestHandler):
 
     def get(self):
@@ -98,6 +109,7 @@ class GroupCreateHandler(RestHandler):
         group.name = r
         group.members.append(user)
         group.put()
+        self.redirect('/')
 
 
 class QueryHandler(RestHandler):
@@ -138,6 +150,7 @@ APP = webapp2.WSGIApplication([
     ('/api/insert', InsertHandler),
     ('/api/delete', DeleteHandler),
     ('/api/update', UpdateHandler),
+    ('/api/user/invite', UserInviteHandler),
     (r'/api/user/.*', UserHandler),
     (r'/api/groups/create', GroupCreateHandler),
     (r'/api/groups/.*', GroupHandler),

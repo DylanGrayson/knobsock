@@ -40,7 +40,7 @@
             <h3>Groups</h3>
             <script id="group_template" type="text/x-handlebars-template">
             {{#each groups}}
-            <button onclick="change_group({{@index}})" class="btn btn-default btn-lg btn-block btn-raised">{{name}}</button>
+            <button onclick="changeGroup({{@index}})" class="btn btn-default btn-lg btn-block btn-raised">{{name}}</button>
             {{/each}}
             </script>
             <div id="group_list"></div>
@@ -163,7 +163,7 @@
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-              <input type="submit" class="btn btn-material-blue" id ="savegroup">
+              <button type="button" class="btn btn-material-blue" id ="savegroup" onclick="createGroup()">Submit</button>
             </div>
             </form>
             </div><!-- /.modal-content -->

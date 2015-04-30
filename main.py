@@ -125,6 +125,10 @@ class GroupCreateHandler(RestHandler):
         self.response.headers['content-type'] = 'text/html'
         self.response.write("<html><body><form method='POST' action='/api/groups/create'><input type='text' name='group_name'><input type='submit'></form></body></html>")
 
+    # expects:
+    #   {
+    #       'group_name': string,
+    #   }
     def post(self):
         user = users.get_current_user()
         r = self.request.get('group_name')
@@ -178,5 +182,5 @@ APP = webapp2.WSGIApplication([
     (r'/api/user/.*', UserHandler),
     (r'/api/groups/create', GroupCreateHandler),
     (r'/api/groups/.*', GroupHandler),
-    (r'/api/knob/update', KnobHandler),
+    (r'/api/knobs/update', KnobHandler),
 ], debug=True)

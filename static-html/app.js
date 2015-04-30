@@ -3,7 +3,7 @@ var currentGroup = 0;
 
 var current_groups = [];
 
-var group_source = $('#group_template').html();
+var group_source = $('#group-template').html();
 var group_template = Handlebars.compile(group_source);
 var group_context = {};
 
@@ -19,24 +19,32 @@ var inactive_sock_source = $('#inactive-sock-template').html();
 var inactive_sock_template = Handlebars.compile(inactive_sock_source);
 var inactive_sock_context = {};
 
-fetched_socks = false;
+var no_knobs_source = $('#no-knobs-template').html();
+
+
 fetchGroups = function() {
     $.getJSON('/api/groups/s.json', function(data) {
-        group_context['groups'] = data.groups;
         current_groups = data.groups;
-        member_context['members'] = data.groups[currentGroup].members;
-        member_context['curGroup'] = data.groups[currentGroup];
-
+        group_context['groups'] = data.groups;
         var group_html = group_template(group_context);
-        $('#group_list').html(group_html);
 
-        var member_html = member_template(member_context);
-        $('#member_list').html(member_html);
-        //console.info('Fetched Groups!');
-        if (!fetched_socks) {
-            updateSocks();
-            fetched_socks = true;
+        $('#group-list').html(group_html);
+        if (current_groups.length > 0) {
+            member_context['members'] = data.groups[currentGroup].members;
+            member_context['curGroup'] = data.groups[currentGroup];
+
+            var member_html = member_template(member_context);
+            $('#member_list').html(member_html);
         }
+        else {
+            console.log("No members");
+            member_context['curGroup'] = null;
+            var member_html = member_template(member_context);
+            $('#member_list').html(member_html);
+        }
+
+        console.info('Fetched Groups!');
+        updateSocks();
     });
 };
 
@@ -69,15 +77,20 @@ createGroup = function(){
     data = {
         'group_name': name
     }
-    $.post('/api/groups/create', data); 
-    $('#group-modal').modal('hide');
-    $("#thegroup").val('');
-    fetchGroups();
+    $.post('/api/groups/create', data, function(){
+        $('#group-modal').modal('hide');
+        $("#thegroup").val('');
+        fetchGroups();
+    }); 
 };
 
 updateSocks = function() {
+    console.info("Updating Socks");
     // clear out HTML
     $('#sock-container').html('');
+    if (!current_groups.length){
+        $('#sock-container').append(no_knobs_source);
+    }
     // add active socks 
     for (var i = 0; i < current_groups.length; i++) {
         if (current_groups[i].knob == true) {
@@ -115,7 +128,6 @@ updateSocks = function() {
             })
         });
         $('#' + current_groups[i].key).Link('lower').to($('#minutes-' + current_groups[i].key));
-
     }
 };
 
@@ -125,12 +137,12 @@ main_loop = function() {
 
     fetchGroups();
     //updateSocks();
-
-    setInterval(fetchGroups, 5000);
+    setInterval(fetchGroups, 1000);
     //setTimeout(updateSocks, 3000);
 };
 
 $(document).ready(function() {
+    $('#groups-list').html("");
     main_loop();
 });
 

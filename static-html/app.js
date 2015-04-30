@@ -70,30 +70,32 @@ updateSocks = function() {
         if (current_groups[i].knob != true) {
             var sock_context = {
                 'group_name': current_groups[i].name,
+                'group_minutes': 'minutes-' + current_groups[i].key,
+                'group_slider': current_groups[i].key,
                 'time_remaining': 0,
                 'percentage_remaining': (current_groups[i].timein / current_groups[i].timeout) * 100
             }
             var sock_html = inactive_sock_template(sock_context);
             $('#sock-container').append(sock_html);
         }
+        $('#' + current_groups[i].key).noUiSlider({
+            start: 15,
+            connect: 'lower',
+            range: {
+                'min': 5,
+                'max': 120
+            },
+            format: wNumb({
+                decimals: 0
+            })
+        });
+        $('#' + current_groups[i].key).Link('lower').to($('#minutes-' + current_groups[i].key));
 
     }
 };
 
 main_loop = function() {
     //$.material.init();
-    $('.slider').noUiSlider({
-        start: 15,
-        connect: 'lower',
-        range: {
-            'min': 5,
-            'max': 120
-        },
-        format: wNumb({
-            decimals: 0
-        })
-    });
-    $('#minutes-slider').Link('lower').to($('#minutes-value'));
 
 
     fetchGroups();

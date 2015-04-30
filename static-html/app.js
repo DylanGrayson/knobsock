@@ -54,7 +54,7 @@ updateSocks = function() {
         if (current_groups[i].knob == true) {
             var sock_context = {
                 'group_name': current_groups[i].name,
-                'time_remaining': current_groups[i].timeout - current_groups[i].servertime
+                'time_remaining': Date.parse(current_groups[i].timeout) - current_groups[i].servertime
             };
             var sock_html = active_sock_template(sock_context);
             $('#sock-container').append(sock_html);
@@ -65,7 +65,7 @@ updateSocks = function() {
         if (current_groups[i].knob != true) {
             var sock_context = {
                 'group_name': current_groups[i].name,
-                'time_remaining': current_groups[i].timeout - current_groups[i].servertime,
+                'time_remaining': 0,
                 'percentage_remaining': (current_groups[i].timein / current_groups[i].timeout) * 100
             }
             var sock_html = inactive_sock_template(sock_context);

@@ -1,6 +1,8 @@
 import json
 import webapp2
+
 import datetime
+
 from google.appengine.api import users
 from google.appengine.ext import ndb
 import model
@@ -32,8 +34,8 @@ def GroupsAsDict(groups):
 
         for i in range(len(group.members)):
             new_group['members'].append(UserAsDict(group.members[i]))
-        new_group['timein'] = group.timein
-        new_group['timeout'] = group.timeout
+        new_group['timein'] = str(group.timein)
+        new_group['timeout'] = str(group.timeout)
         new_group['servertime'] = time.time()
         group_dict["groups"].append(new_group)
     return group_dict
@@ -77,9 +79,24 @@ class GroupHandler(RestHandler):
 class KnobHandler(RestHandler):
 
     def get(self):
-        user = users.get_current_user()
-        if user != None:
-            knobs = model.ListKnobs()
+        pass
+
+    # expects:
+    #   {
+    #       'group': ndb.key,
+    #       'new_time': datetime,
+    #       'message': string
+    #   }
+    def post(self):
+        key = ndb.Key(urlsafe=self.request.get('group'))
+        group = key.get()
+
+        group.timein = datetime.datetime.now()
+        group.timeout = datetime.datetime.strptime(self.request.get('new_time'), "%Y-%m-%dT%H:%M:%S.%fZ" )
+        group.knob = True
+        group.knob_owner = users.get_current_user()
+        group.sock_msg = self.request.get('message')
+        group.put()
 
 class UserInviteHandler(RestHandler):
 
@@ -155,5 +172,5 @@ APP = webapp2.WSGIApplication([
     (r'/api/user/.*', UserHandler),
     (r'/api/groups/create', GroupCreateHandler),
     (r'/api/groups/.*', GroupHandler),
-    (r'/api/knobs/(.*)', KnobHandler),
+    (r'/api/knob/update', KnobHandler),
 ], debug=True)

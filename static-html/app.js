@@ -25,14 +25,14 @@ fetchGroups = function() {
         group_context['groups'] = data.groups;
         current_groups = data.groups;
         member_context['members'] = data.groups[currentGroup].members;
-        member_context['curGroup'] = data.groups[currentGroup].name;
+        member_context['curGroup'] = data.groups[currentGroup];
 
         var group_html = group_template(group_context);
         $('#group_list').html(group_html);
 
         var member_html = member_template(member_context);
         $('#member_list').html(member_html);
-        console.info('Fetched Groups!');
+        //console.info('Fetched Groups!');
         if (!fetched_socks) {
             updateSocks();
             fetched_socks = true;
@@ -40,12 +40,16 @@ fetchGroups = function() {
     });
 };
 
+invite_init = function(key) {
+	document.getElementById('group_key').value = key
+}
+
 change_group = function(index) {
     currentGroup = index;
-    member_context['curGroup'] = group_context['groups'][currentGroup].name;
+    member_context['curGroup'] = group_context['groups'][currentGroup];
     member_context['members'] = group_context['groups'][currentGroup].members;
     var member_html = member_template(member_context);
-    document.getElementById('member_list').innerHTML = member_html;
+    $('#member_list').innerHTML = member_html;
 };
 
 updateSocks = function() {

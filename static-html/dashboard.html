@@ -50,7 +50,7 @@
           <div class="well well-lg">
           <div id="member_list"></div>
           <script id="member_template" type="text/x-handlebars-template">
-          <h3>{{curGroup}}</h3>
+          <h3>{{curGroup.name}}</h3>
           <div class="list-group">
             {{#each members}}
             <div class="list-group-item">
@@ -64,8 +64,8 @@
             </div>
             <div class="list-group-separator"></div>
             {{/each}}
-          </script>
-            <a class="btn btn-fab btn-raised btn-material-blue pull-right" data-toggle="modal" href='#user-modal'><i class="mdi-content-add"></i></a>
+            <a class="btn btn-fab btn-raised btn-material-blue pull-right" data-toggle="modal" href='#user-modal' onclick="invite_init('{{curGroup.key}}')"><i class="mdi-content-add"></i></a>
+            </script>
           </div>
         </div>
         <!-- Right Side -->
@@ -174,18 +174,21 @@
                 <div class="modal-content">
                   <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title">Search For A Friend</h4>
+                    <h4 class="modal-title">Add A Friend</h4>
                   </div>
                   <div class="modal-body">
                     <br>
+                    <form method='POST' action='/api/user/invite'>
                     <div class="form-group-material-blue">
-                      <input class="form-control floating-label" id="focusedInput" type="text" placeholder="Start typing their email or username.">
+                      <input class="form-control floating-label" id="focusedInput" name="user_name_search" type="text" placeholder="Start typing their email or username.">
                     </div>
                   </div>
                   <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-material-blue">Add Friend To</button>
+                    <input type="submit" class="btn btn-material-blue" value="Add Friend">
+                    <input type="hidden" id="group_key" value=''>
                   </div>
+                  </form>
                   </div><!-- /.modal-content -->
                   </div><!-- /.modal-dialog -->
                   </div><!-- /.modal -->

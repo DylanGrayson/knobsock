@@ -7,21 +7,15 @@ from google.appengine.api import users
 from google.appengine.ext import ndb
 import model
 import time
+import logging
 
 
 def UserAsDict(user):
     return {
         'id': user.user_id(),
         'email': user.email(),
-        'admin': users.is_current_user_admin(),
         'nickname': user.nickname()
     }
-
-def AllUsersDict(users):
-    users = {'users': []}
-    for user in users:
-        users['users'].append(UserAsDict(user))
-    return users
 
 def GroupsAsDict(groups):
     group_dict = {'groups': []}
@@ -73,6 +67,11 @@ class GroupHandler(RestHandler):
     def get(self):
         user = users.get_current_user()
         if user != None:
+            if (model.UserProfile.query(model.UserProfile.userid == user.user_id()).get()) == None:
+                u = model.UserProfile()
+                u.username = user.nickname()
+                u.userid = user.user_id()
+                u.put()
             groups = model.ListGroups(user)
             self.SendJson(GroupsAsDict(groups))
 
@@ -108,8 +107,15 @@ class UserInviteHandler(RestHandler):
 
     def post(self):
         r = self.request.get('user_name_search')
-        q = users.query().filter()
-        self.SendJson()
+        group_key = self.request.get('group_key')
+        query = model.UserProfile.query(model.UserProfile.username == r)
+        usr = query.get()
+        if usr != None:
+            u = users.User(usr.username, usr.userid)
+            self.response.write(group_key)
+        #self.redirect('/')
+
+
 
 class GroupCreateHandler(RestHandler):
 

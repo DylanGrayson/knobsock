@@ -1,6 +1,10 @@
 from google.appengine.ext import ndb
 from google.appengine.api import users
 
+class UserProfile(ndb.Model):
+    username = ndb.StringProperty()
+    userid = ndb.StringProperty()
+
 class Group(ndb.Model):
     name = ndb.StringProperty()
     members = ndb.UserProperty(repeated=True)

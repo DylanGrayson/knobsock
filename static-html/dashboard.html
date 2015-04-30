@@ -43,7 +43,7 @@
             {{/each}}
             </script>
             <div id="group_list"></div>
-            <button class="btn btn-fab btn-raised btn-material-blue pull-right"><i class="mdi-content-add"></i></button>
+            <a class="btn btn-fab btn-raised btn-material-blue pull-right" data-toggle="modal" href='#group-modal'><i class="mdi-content-add"></i></a>
           </div>
           <br>
           <div id="member_list" class="well well-lg"></div>
@@ -62,13 +62,13 @@
             </div>
             <div class="list-group-separator"></div>
             {{/each}}
-            <a class="btn btn-fab btn-raised btn-material-blue pull-right" data-toggle="modal" href='#modal-id'><i class="mdi-content-add"></i></a>
+            <a class="btn btn-fab btn-raised btn-material-blue pull-right" data-toggle="modal" href='#user-modal'><i class="mdi-content-add"></i></a>
           </div>
           </script>
         </div>
         <!-- Right Side -->
         <div class="col-xs-12 col-sm-8 col-md-8 col-lg-8">
-          <div class="well well-lg">
+          <!-- <div class="well well-lg">
             <h3>Socks</h3>
             <p>When Checkbox is clicked a modal pops up asking the time on that sock</p>
             <div class="list-group">
@@ -104,8 +104,7 @@
               <div class="list-group-separator"></div>
             </div>
             <button class="btn btn-fab btn-raised btn-material-blue pull-right"><i class="mdi-content-add"></i></button>
-          </div>
-          <br>
+          </div>-->
           <div class="well well-lg">
             <div class="row">
               <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
@@ -124,44 +123,65 @@
         </div>
       </div>
       
-      <div class="modal fade" id="modal-id">
+      <div class="modal fade" id="group-modal">
         <div class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header">
               <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-              <h4 class="modal-title">Search For A Friend</h4>
+              <h4 class="modal-title">Create a Group</h4>
             </div>
             <div class="modal-body">
-            <br>
+              <br>
               <div class="form-group-material-blue">
-                <input class="form-control floating-label" id="focusedInput" type="text" placeholder="Start typing their email or username.">
+                <input class="form-control floating-label" id="focusedInput" type="text" placeholder="Start typing a group name">
               </div>
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-              <button type="button" class="btn btn-material-blue">Add Friend To Group</button>
+              <button type="button" class="btn btn-material-blue">Create Group</button>
             </div>
             </div><!-- /.modal-content -->
             </div><!-- /.modal-dialog -->
             </div><!-- /.modal -->
-          </div>
-          <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js" type="text/javascript"></script>
-          <!-- Latest compiled and minified JavaScript -->
-          <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js" type="text/javascript"></script>
-          <script src="js/ripples.min.js" type="text/javascript"></script>
-          <script src="js/material.min.js" type="text/javascript"></script>
-          <script src="js/handlebars-v3.0.1.js" type="text/javascript"></script>
-          <script src="app.js" ></script>
-          <script>
-          //var source = $("#template").html();
-          //var template = Handlebars.compile(source);
-          //var context = {title: "Knobsock!"};
-          // var html = template(context);
-          $(document).ready(function() {
-          // This command is used to initialize some elements and make them work properly
-          $.material.init();
-          //document.write(html);
-          });
-          </script>
-        </body>
-      </html>
+
+            <div class="modal fade" id="user-modal">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">Search For A Friend</h4>
+                  </div>
+                  <div class="modal-body">
+                    <br>
+                    <div class="form-group-material-blue">
+                      <input class="form-control floating-label" id="focusedInput" type="text" placeholder="Start typing their email or username.">
+                    </div>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-material-blue">Add Friend To</button>
+                  </div>
+                  </div><!-- /.modal-content -->
+                  </div><!-- /.modal-dialog -->
+                  </div><!-- /.modal -->
+                </div>
+                <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js" type="text/javascript"></script>
+                <!-- Latest compiled and minified JavaScript -->
+                <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js" type="text/javascript"></script>
+                <script src="js/ripples.min.js" type="text/javascript"></script>
+                <script src="js/material.min.js" type="text/javascript"></script>
+                <script src="js/handlebars-v3.0.1.js" type="text/javascript"></script>
+                <script src="app.js" ></script>
+                <script>
+                //var source = $("#template").html();
+                //var template = Handlebars.compile(source);
+                //var context = {title: "Knobsock!"};
+                // var html = template(context);
+                $(document).ready(function() {
+                // This command is used to initialize some elements and make them work properly
+                $.material.init();
+                //document.write(html);
+                });
+                </script>
+              </body>
+            </html>

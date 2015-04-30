@@ -49,7 +49,7 @@ changeGroup = function(index) {
     member_context['curGroup'] = group_context['groups'][currentGroup];
     member_context['members'] = group_context['groups'][currentGroup].members;
     var member_html = member_template(member_context);
-    $('#member_list').innerHTML = member_html;
+    $('#member_list').html(member_html);
 };
 
 updateKnob = function(group_key, diff_minutes, message) {

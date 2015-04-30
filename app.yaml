@@ -15,6 +15,7 @@ handlers:
 - url: (.*)/
   static_files: static-html\1/dashboard.html
   upload: app
+  login: required
 
 - url: (.*)
   static_files: static-html\1

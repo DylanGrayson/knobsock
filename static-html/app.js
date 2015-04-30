@@ -3,11 +3,11 @@ var currentGroup = 0;
 
 var current_groups = [];
 
-var group_source = $("#group_template").html();
+var group_source = $('#group_template').html();
 var group_template = Handlebars.compile(group_source);
 var group_context = {};
 
-var member_source = $("#member_template").html();
+var member_source = $('#member_template').html();
 var member_template = Handlebars.compile(member_source);
 var member_context = {};
 
@@ -19,46 +19,47 @@ var inactive_sock_source = $('#inactive-sock-template').html();
 var inactive_sock_template = Handlebars.compile(inactive_sock_source);
 var inactive_sock_context = {};
 
+fetched_socks = false;
 fetchGroups = function() {
-    $.getJSON("/api/groups/s.json", function(data) {
+    $.getJSON('/api/groups/s.json', function(data) {
         group_context['groups'] = data.groups;
         current_groups = data.groups;
         member_context['members'] = data.groups[currentGroup].members;
         member_context['curGroup'] = data.groups[currentGroup].name;
+
+        var group_html = group_template(group_context);
+        $('#group_list').html(group_html);
+
+        var member_html = member_template(member_context);
+        $('#member_list').html(member_html);
+        console.info('Fetched Groups!');
+        if (!fetched_socks) {
+            updateSocks();
+            fetched_socks = true;
+        }
     });
-    var group_html = group_template(group_context);
-    $('#group_list').html(group_html);
+};
 
-    var member_html = member_template(member_context);
-    $('#member_list').html(member_html);
-    console.info("Fetched Groups!");
-}
-
-
-$("#savegroup").click(function(){
-	thevalue = $( ".thegroup" ).val();
-    $.post('/api/groups/create', {'group_name' : thevalue});
-});
 change_group = function(index) {
     currentGroup = index;
     member_context['curGroup'] = group_context['groups'][currentGroup].name;
     member_context['members'] = group_context['groups'][currentGroup].members;
-    var member_html = member_template(member_context)
+    var member_html = member_template(member_context);
     document.getElementById('member_list').innerHTML = member_html;
-}
+};
 
 updateSocks = function() {
-    $('#sock-container').html("");
+    $('#sock-container').html('');
     for (var i = 0; i < current_groups.length; i++) {
         if (current_groups[i].knob == true) {
             var sock_context = {
                 'group_name': current_groups[i].name,
                 'time_remaining': current_groups[i].timeout - current_groups[i].servertime
-            }
+            };
             var sock_html = active_sock_template(sock_context);
             $('#sock-container').append(sock_html);
         }
-        
+
     }
     for (var i = 0; i < current_groups.length; i++) {
         if (current_groups[i].knob != true) {
@@ -70,15 +71,15 @@ updateSocks = function() {
             var sock_html = inactive_sock_template(sock_context);
             $('#sock-container').append(sock_html);
         }
-        
+
     }
-}
+};
 
 main_loop = function() {
     //$.material.init();
-    $(".slider").noUiSlider({
+    $('.slider').noUiSlider({
         start: 15,
-        connect: "lower",
+        connect: 'lower',
         range: {
             'min': 5,
             'max': 120
@@ -87,13 +88,17 @@ main_loop = function() {
             decimals: 0
         })
     });
-    $("#minutes-slider").Link('lower').to($('#minutes-value'));
+    $('#minutes-slider').Link('lower').to($('#minutes-value'));
 
 
     fetchGroups();
-    
+    //updateSocks();
+
     setInterval(fetchGroups, 5000);
-    setTimeout(updateSocks, 3000);
+    //setTimeout(updateSocks, 3000);
 };
 
-main_loop();
+$(document).ready(function() {
+    main_loop();
+});
+

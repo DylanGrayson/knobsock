@@ -5,6 +5,7 @@ from google.appengine.api import users
 from google.appengine.ext import ndb
 import model
 import logging
+import cgi
 
 
 def UserAsDict(user):
@@ -88,13 +89,13 @@ class GroupCreateHandler(RestHandler):
       user = users.get_current_user()
       if user != None:
         self.response.headers['content-type'] = 'text/html'
-        self.response.write("<html><body><form method='POST' action='/'><input type='text' name='group_name'><input type='submit'></form></body></html>")
+        self.response.write("<html><body><form method='POST' action='/api/groups/create'><input type='text' name='group_name'><input type='submit'></form></body></html>")
 
     def post(self):
         user = users.get_current_user()
-        r = json.loads(self.request.body)
-        logging.info(r['group_name'])
-        group = model.Group(r['group_name'])
+        r = self.request.get('group_name')
+        group = model.Group()
+        group.name = r
         group.members.append(user)
         group.put()
 

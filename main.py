@@ -4,6 +4,7 @@ import time
 from google.appengine.api import users
 from google.appengine.ext import ndb
 import model
+import logging
 
 
 def UserAsDict(user):
@@ -78,12 +79,14 @@ class GroupCreateHandler(RestHandler):
     def get(self):
       user = users.get_current_user()
       if user != None:
-        self.response.write("<body><form method='POST'><input type='text' name='group_name'><input type='submit'></form></body>")
+        self.response.headers['content-type'] = 'text/html'
+        self.response.write("<html><body><form method='POST' action='/'><input type='text' name='group_name'><input type='submit'></form></body></html>")
 
     def post(self):
         user = users.get_current_user()
-        r = json.loads(self.request.form)
-        group = model.CreateGroup(r['group_name'])
+        r = json.loads(self.request.body)
+        logging.info(r['group_name'])
+        group = model.Group(r['group_name'])
         group.members.append(user)
         group.put()
 

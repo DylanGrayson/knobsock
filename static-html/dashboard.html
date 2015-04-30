@@ -107,39 +107,46 @@
             </div>
             <button class="btn btn-fab btn-raised btn-material-blue pull-right"><i class="mdi-content-add"></i></button>
           </div>-->
-          <div class="well well-lg" id="active-sock-template">
-            <div class="row">
-              <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-                <h3>{{Group Name}}</h3>
-              </div>
-              <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 text-right">
-                <h3>Time Remaining: {timer}</h3>
+          <div id="sock-container">
+          
+            <div id="active-sock-template">
+              <div class="well well-lg">
+                <div class="row">
+                  <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                    <h3>{{group_name}}</h3>
+                  </div>
+                  <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 text-right">
+                    <h3>Time Remaining: {{time_remaining}}</h3>
+                  </div>
+                </div>
+                <div class="progress progress-striped active">
+                  <div class="progress-bar progress-bar-material-blue" style="width: 45%"></div>
+                </div>
               </div>
             </div>
-            <div class="progress progress-striped active">
-              <div class="progress-bar progress-bar-material-blue" style="width: 45%"></div>
-            </div>
-          </div>
 
-          <div class="well well-lg" id="active-sock-template">
-            <div class="row">
-              <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-                <h3>{{Group Name}}</h3>
-              </div>
-              <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 text-right">
-                <h3>Time Remaining: 0 Minutes</h3>
+            <div id="inactive-sock-template">
+              <div class="well well-lg" id="inactive-sock-template">
+                <div class="row">
+                  <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                    <h3>{{group_name}}</h3>
+                  </div>
+                  <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 text-right">
+                    <h3>Time Remaining: {{time_remaining}}</h3>
+                  </div>
+                </div>
+                <div class="progress progress-striped active">
+                  <div class="progress-bar progress-bar-material-blue" style="width: {{percentage_remaining}}%"></div>
+                </div>
+                <hr>
+                <div class="slider slider-material-blue" id="minutes-slider"></div>
+                <h5>The sock will be set for <span id="minutes-value"></span> minutes</h5>
               </div>
             </div>
-            <div class="progress progress-striped active">
-              <div class="progress-bar progress-bar-material-blue" style="width: 45%"></div>
-            </div>
-            <hr>
-            <div class="slider slider-material-blue" id="minutes-slider"></div>
-            <h5>The sock will be set for <span id="minutes-value"></span> minutes</h5>
+
           </div>
         </div>
       </div>
-      
       <div class="modal fade" id="group-modal">
         <div class="modal-dialog">
           <div class="modal-content">

@@ -78,15 +78,14 @@ class GroupCreateHandler(RestHandler):
     def get(self):
       user = users.get_current_user()
       if user != None:
-        group1 = model.Group(name="Brandon Sucks", members=[user])
-        #UNCOMMENT BELOW to put a test group in under your username
-        group1.put()
+        self.response.write("<body><form method='POST'><input type='text' name='group_name'><input type='submit'></form></body>")
 
     def post(self):
         user = users.get_current_user()
-        r = json.loads(self.request.body)
+        r = json.loads(self.request.form)
         group = model.CreateGroup(r['group_name'])
-        group.members.append(user);
+        group.members.append(user)
+        group.put()
 
 
 class QueryHandler(RestHandler):

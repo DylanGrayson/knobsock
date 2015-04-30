@@ -9,18 +9,19 @@ var member_source = $("#member_template").html();
 var member_template = Handlebars.compile(member_source);
 var member_context = {};
 
+fetchGroups = function() {
+	$.getJSON("/api/groups/s.json", function(data) {
+	group_context['groups'] = data.groups;
+	var group_html = group_template(group_context);
+	$('#group_list').append(group_html);
 
-$.getJSON("/api/groups/s.json", function(data) {
-		group_context['groups'] = data.groups;
-		var group_html = group_template(group_context);
-		$('#group_list').append(group_html);
+	member_context['members'] = data.groups[currentGroup].members;
+	member_context['curGroup'] = data.groups[currentGroup].name;
+	var member_html = member_template(member_context)
+	$('#member_list').append(member_html);
+}
 
-		member_context['members'] = data.groups[currentGroup].members;
-		member_context['curGroup'] = data.groups[currentGroup].name;
-		var member_html = member_template(member_context)
-		$('#member_list').append(member_html);
-	})
-
+setInterval(fetchGroups, 5000);
 
 change_group = function(index) {
 	currentGroup = index;
@@ -29,3 +30,7 @@ change_group = function(index) {
 	var member_html = member_template(member_context)
 	document.getElementById('member_list').innerHTML = member_html;
 }
+
+main_loop = function(){
+
+};

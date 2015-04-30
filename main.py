@@ -23,7 +23,7 @@ def AllUsersDict(users):
 def GroupsAsDict(groups):
     group_dict = {'groups': []}
     for group in groups:
-        new_group = {'name': group.name, 'members': []}
+        new_group = {'name': group.name, 'key': group.key.urlsafe(), 'members': []}
         for i in range(len(group.members)):
             new_group['members'].append(UserAsDict(group.members[i]))
         group_dict["groups"].append(new_group)
@@ -67,11 +67,10 @@ class GroupHandler(RestHandler):
 
 class KnobHandler(RestHandler):
 
-    def get(self, parent_hash):
-        parent_key = ndb.Key(urlsafe=parent_hash)
-        parent = parent_key.get()
-        #knobs = model.ListKnobs(parent)
-        self.response.write(parent_key)
+    def get(self):
+        user = users.get_current_user()
+        if user != None:
+            knobs = model.ListKnobs()
 
 class GroupCreateHandler(RestHandler):
 

@@ -50,6 +50,7 @@ change_group = function(index) {
     member_context['members'] = group_context['groups'][currentGroup].members;
     var member_html = member_template(member_context);
     $('#member_list').innerHTML = member_html;
+    fetchGroups();
 };
 
 updateSocks = function() {

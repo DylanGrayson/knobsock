@@ -11,11 +11,14 @@ handlers:
 
 - url: /api/.*
   script: main.APP
+  login: required
+  auth_fail_action: unauthorized
 
 - url: (.*)/
   static_files: static-html\1/dashboard.html
   upload: app
   login: required
+  auth_fail_action: redirect
 
 - url: (.*)
   static_files: static-html\1

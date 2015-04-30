@@ -53,8 +53,9 @@ class UserHandler(RestHandler):
             self.redirect(users.create_logout_url('/'))
         else:
             user = users.get_current_user()
+            usr = model.UserProfile.query(model.UserProfile.userid == user.user_id()).get()
             if user != None:
-                self.SendJson(UserAsDict(user))
+                self.SendJson(UserAsDict(usr))
             else:
                 self.SendJson({'user': None})
 

@@ -3,6 +3,10 @@ var currentGroup = 0;
 
 var current_groups = [];
 
+var user_source = $('#user-greeting-template').html();
+var user_template = Handlebars.compile(user_source);
+var user_context = {};
+
 var group_source = $('#group-template').html();
 var group_template = Handlebars.compile(group_source);
 var group_context = {};
@@ -47,6 +51,15 @@ fetchGroups = function() {
         updateSocks();
     });
 };
+
+fetchUser = function() {
+	$.getJSON('/api/user/me.json', function(data) {
+		user_context = data;
+		var html = user_template(user_context);
+		console.log(html);
+		$('#user-greeting').append(html);
+	})
+}
 
 invite_init = function(key) {
 	document.getElementById('group_key').value = key
@@ -134,7 +147,7 @@ updateSocks = function() {
 main_loop = function() {
     //$.material.init();
 
-
+    fetchUser();
     fetchGroups();
     //updateSocks();
     setInterval(fetchGroups, 1000);

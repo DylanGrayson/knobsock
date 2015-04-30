@@ -1,6 +1,6 @@
 import json
 import webapp2
-import time
+import datetime
 from google.appengine.api import users
 from google.appengine.ext import ndb
 import model
@@ -23,7 +23,16 @@ def AllUsersDict(users):
 def GroupsAsDict(groups):
     group_dict = {'groups': []}
     for group in groups:
-        new_group = {'name': group.name, 'key': group.key.urlsafe(), 'members': []}
+        new_group = {
+            'name': group.name, 
+            'key': group.key.urlsafe(),
+            'knob_active': group.knob,
+            'members': []
+        }
+
+        new_group['timein'] = group.timein
+        new_group['timeout'] = group.timeout
+        new_group['timeleft'] = group.timeout - datetime.datetime.now()
         for i in range(len(group.members)):
             new_group['members'].append(UserAsDict(group.members[i]))
         group_dict["groups"].append(new_group)

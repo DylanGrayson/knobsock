@@ -27,6 +27,11 @@ fetchGroups = function() {
     console.info("Fetched Groups!");
 }
 
+
+$("#savegroup").click(function(){
+	thevalue = $( ".thegroup" ).val();
+    $.post('/api/groups/create', {'group_name' : thevalue});
+});
 change_group = function(index) {
     currentGroup = index;
     member_context['curGroup'] = group_context['groups'][currentGroup].name;

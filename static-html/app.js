@@ -37,7 +37,7 @@ change_group = function(index) {
 
 main_loop = function(){
     //$.material.init();
-    $("#minutes-slider").noUiSlider({
+    $(".slider").noUiSlider({
         start: 15,
         connect: "lower",
         range: {

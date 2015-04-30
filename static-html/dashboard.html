@@ -65,8 +65,6 @@
             <div class="list-group-separator"></div>
             {{/each}}
           </script>
-          <div class="slider slider-material-blue" id="minutes-slider"></div>
-            <h5>The sock will be set for <span id="minutes-value"></span> minutes</h5>
             <a class="btn btn-fab btn-raised btn-material-blue pull-right" data-toggle="modal" href='#user-modal'><i class="mdi-content-add"></i></a>
           </div>
         </div>
@@ -112,7 +110,7 @@
           <div class="well well-lg" id="active-sock-template">
             <div class="row">
               <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-                <h3>Active Sock</h3>
+                <h3>{{Group Name}}</h3>
               </div>
               <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 text-right">
                 <h3>Time Remaining: {timer}</h3>
@@ -121,8 +119,23 @@
             <div class="progress progress-striped active">
               <div class="progress-bar progress-bar-material-blue" style="width: 45%"></div>
             </div>
-            <h4>Sock Set By: <strong>Name</strong></h4><hr>
-            <h4>Sock Restrictions</h4>
+          </div>
+
+          <div class="well well-lg" id="active-sock-template">
+            <div class="row">
+              <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                <h3>{{Group Name}}</h3>
+              </div>
+              <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 text-right">
+                <h3>Time Remaining: 0 Minutes</h3>
+              </div>
+            </div>
+            <div class="progress progress-striped active">
+              <div class="progress-bar progress-bar-material-blue" style="width: 45%"></div>
+            </div>
+            <hr>
+            <div class="slider slider-material-blue" id="minutes-slider"></div>
+            <h5>The sock will be set for <span id="minutes-value"></span> minutes</h5>
           </div>
         </div>
       </div>

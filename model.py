@@ -5,7 +5,10 @@ class Group(ndb.Model):
     name = ndb.StringProperty()
     members = ndb.UserProperty(repeated=True)
     knob = ndb.BooleanProperty()
+    timein = ndb.DateTimeProperty()
     timeout = ndb.DateTimeProperty()
+    sock_owner = ndb.UserProperty()
+    sock_msg = ndb.StringProperty()
 
 ### Knob Functions ###
 # get all child knobs of a group

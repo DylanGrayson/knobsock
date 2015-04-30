@@ -112,6 +112,7 @@ class GroupCreateHandler(RestHandler):
         self.redirect('/')
 
 
+
 class QueryHandler(RestHandler):
 
     def get(self):

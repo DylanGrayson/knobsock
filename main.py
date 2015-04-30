@@ -12,9 +12,8 @@ import logging
 
 def UserAsDict(user):
     return {
-        'id': user.user_id(),
-        'email': user.email(),
-        'nickname': user.nickname()
+        'id': user.userid,
+        'nickname': user.username
     }
 
 def GroupsAsDict(groups):
@@ -67,12 +66,13 @@ class GroupHandler(RestHandler):
     def get(self):
         user = users.get_current_user()
         if user != None:
-            if (model.UserProfile.query(model.UserProfile.userid == user.user_id()).get()) == None:
+            usr = model.UserProfile.query(model.UserProfile.userid == user.user_id()).get()
+            if usr == None:
                 u = model.UserProfile()
                 u.username = user.nickname()
                 u.userid = user.user_id()
                 u.put()
-            groups = model.ListGroups(user)
+            groups = model.ListGroups(usr)
             self.SendJson(GroupsAsDict(groups))
 
 class KnobHandler(RestHandler):
@@ -112,9 +112,8 @@ class UserInviteHandler(RestHandler):
         query = model.UserProfile.query(model.UserProfile.username == r)
         usr = query.get()
         if usr != None:
-            u = users.User(usr.username, usr.userid)
             group = group_key.get()
-            group.members.append(u)
+            group.members.append(usr)
             group.put()
         self.redirect('/')
 
@@ -134,10 +133,11 @@ class GroupCreateHandler(RestHandler):
     #   }
     def post(self):
         user = users.get_current_user()
+        usr = model.UserProfile.query(model.UserProfile.userid == user.user_id()).get()
         r = self.request.get('group_name')
         group = model.Group()
         group.name = r
-        group.members.append(user)
+        group.members.append(usr)
         group.put()
         self.redirect('/')
 

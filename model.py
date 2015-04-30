@@ -7,7 +7,7 @@ class UserProfile(ndb.Model):
 
 class Group(ndb.Model):
     name = ndb.StringProperty()
-    members = ndb.UserProperty(repeated=True)
+    members = ndb.StructuredProperty(UserProfile, repeated=True)
     knob = ndb.BooleanProperty()
     timein = ndb.DateTimeProperty()
     timeout = ndb.DateTimeProperty()

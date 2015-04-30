@@ -4,14 +4,8 @@ from google.appengine.api import users
 class Group(ndb.Model):
     name = ndb.StringProperty()
     members = ndb.UserProperty(repeated=True)
-
-
-class Knob(ndb.Model):
-    name = ndb.StringProperty()
-    parent = ndb.StructuredProperty(Group)
+    knob = ndb.BooleanProperty()
     timeout = ndb.DateTimeProperty()
-    sock = ndb.BooleanProperty()
-
 
 ### Knob Functions ###
 # get all child knobs of a group

@@ -44,17 +44,41 @@ invite_init = function(key) {
 	document.getElementById('group_key').value = key
 }
 
-change_group = function(index) {
+changeGroup = function(index) {
     currentGroup = index;
     member_context['curGroup'] = group_context['groups'][currentGroup];
     member_context['members'] = group_context['groups'][currentGroup].members;
     var member_html = member_template(member_context);
     $('#member_list').innerHTML = member_html;
+};
+
+updateKnob = function(group_key, diff_minutes, message) {
+    date = new Date();
+    new_date = new Date(date.getTime() + diff_minutes * 60000);
+
+    data = {
+        'group': group_key,
+        'new_time': new_date.toISOString(),
+        'message': message
+    }
+    $.post('/api/knobs/update', data); 
+};
+
+createGroup = function(){
+    name = $("#thegroup").val();
+    data = {
+        'group_name': name
+    }
+    $.post('/api/groups/create', data); 
+    $('#group-modal').modal('hide');
+    $("#thegroup").val('');
     fetchGroups();
 };
 
 updateSocks = function() {
+    // clear out HTML
     $('#sock-container').html('');
+    // add active socks 
     for (var i = 0; i < current_groups.length; i++) {
         if (current_groups[i].knob == true) {
             var sock_context = {
@@ -66,34 +90,37 @@ updateSocks = function() {
         }
 
     }
+    // add inactive socks
     for (var i = 0; i < current_groups.length; i++) {
         if (current_groups[i].knob != true) {
             var sock_context = {
                 'group_name': current_groups[i].name,
+                'group_minutes': 'minutes-' + current_groups[i].key,
+                'group_slider': current_groups[i].key,
                 'time_remaining': 0,
                 'percentage_remaining': (current_groups[i].timein / current_groups[i].timeout) * 100
             }
             var sock_html = inactive_sock_template(sock_context);
             $('#sock-container').append(sock_html);
         }
+        $('#' + current_groups[i].key).noUiSlider({
+            start: 15,
+            connect: 'lower',
+            range: {
+                'min': 5,
+                'max': 120
+            },
+            format: wNumb({
+                decimals: 0
+            })
+        });
+        $('#' + current_groups[i].key).Link('lower').to($('#minutes-' + current_groups[i].key));
 
     }
 };
 
 main_loop = function() {
     //$.material.init();
-    $('.slider').noUiSlider({
-        start: 15,
-        connect: 'lower',
-        range: {
-            'min': 5,
-            'max': 120
-        },
-        format: wNumb({
-            decimals: 0
-        })
-    });
-    $('#minutes-slider').Link('lower').to($('#minutes-value'));
 
 
     fetchGroups();

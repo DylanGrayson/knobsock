@@ -14,11 +14,18 @@ handlers:
   login: required
   auth_fail_action: unauthorized
 
-- url: (.*)/
-  static_files: static-html\1/dashboard.html
+- url: /user/.*
+  script: main.APP
+
+- url: /dashboard
+  static_files: static-html/dashboard.html
   upload: app
   login: required
-  auth_fail_action: redirect
+  auth_fail_action: unauthorized
+
+- url: (.*)/
+  static_files: static-html\1/index.html
+  upload: app
 
 - url: (.*)
   static_files: static-html\1

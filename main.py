@@ -48,7 +48,7 @@ class UserHandler(RestHandler):
 
     def get(self):
         if "login" in self.request.path:
-            self.redirect(users.create_login_url())
+            self.redirect(users.create_login_url('/dashboard'))
         elif "logout" in self.request.path:
             self.redirect(users.create_logout_url('/'))
         else:
@@ -155,6 +155,8 @@ class SockHandler(RestHandler):
 APP = webapp2.WSGIApplication([
     ('/api/sock/remove', SockHandler),
     ('/api/user/invite', UserInviteHandler),
+    ('/user/login', UserHandler),
+    ('/user/logout', UserHandler),
     (r'/api/user/.*', UserHandler),
     (r'/api/groups/create', GroupCreateHandler),
     (r'/api/groups/.*', GroupHandler),

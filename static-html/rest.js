@@ -44,7 +44,7 @@ fetchGroups = function() {
         }
 
         console.info('Fetched Groups!');
-        updateSocks();
+        updateKnobList();
     });
 };
 

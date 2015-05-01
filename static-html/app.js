@@ -48,7 +48,6 @@ updateKnobList = function() {
                 'group_minutes': 'minutes-' + current_groups[i].key,
                 'group_key': current_groups[i].key,
                 'time_remaining': 0,
-                'percentage_remaining': (current_groups[i].timein / current_groups[i].timeout) * 100
             })
             var new_time = $('#' + current_groups[i].key).val()
 			if (new_time > 0) {

@@ -66,6 +66,7 @@ function deploy() {
 }
 
 APP_ID=$(get_app_id $*)
+APP_ID=knobsock1
 echo
 echo "Using app id: $APP_ID"
 

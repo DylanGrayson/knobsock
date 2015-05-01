@@ -53,8 +53,9 @@ class UserHandler(RestHandler):
             self.redirect(users.create_logout_url('/'))
         else:
             user = users.get_current_user()
+            usr = model.UserProfile.query(model.UserProfile.userid == user.user_id()).get()
             if user != None:
-                self.SendJson(UserAsDict(user))
+                self.SendJson(UserAsDict(usr))
             else:
                 self.SendJson({'user': None})
 
@@ -135,10 +136,21 @@ class GroupCreateHandler(RestHandler):
         group = model.Group()
         group.name = r
         group.members.append(usr)
+        group.knob = False
         group.put()
         self.redirect('/')
 
+
+class SockHandler(RestHandler):
+
+    def post(self):
+        group = ndb.Key(urlsafe=str(self.request.get('group_key'))).get()
+        group.knob = True
+        group.sock_owner = model.UserProfile.query(model.UserProfile.userid == self.request.get('userid')).get()
+        group.put()
+
 APP = webapp2.WSGIApplication([
+    ('/api/setsock', SockHandler),
     ('/api/user/invite', UserInviteHandler),
     (r'/api/user/.*', UserHandler),
     (r'/api/groups/create', GroupCreateHandler),

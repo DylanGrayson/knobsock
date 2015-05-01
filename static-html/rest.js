@@ -11,12 +11,12 @@ var member_source = $('#member_template').html();
 var member_template = Handlebars.compile(member_source);
 var member_context = {};
 
-var active_sock_source = $('#active-sock-template').html();
+var active_sock_source = $('#sock-template').html();
 var active_sock_template = Handlebars.compile(active_sock_source);
 var active_sock_context = {};
 
 var inactive_sock_source = $('#inactive-sock-template').html();
-var inactive_sock_template = Handlebars.compile(inactive_sock_source);
+//var inactive_sock_template = Handlebars.compile(inactive_sock_source);
 var inactive_sock_context = {};
 
 var no_knobs_source = $('#no-knobs-template').html();
@@ -45,6 +45,23 @@ fetchGroups = function() {
 
         console.info('Fetched Groups!');
     });
+};
+
+fetchUser = function() {
+    $.getJSON('/api/user/me.json', function(data) {
+        user_context = data;
+        var html = user_template(user_context);
+        $('#user-greeting').append(html);
+    })
+}
+
+set_sock = function(group_key) {
+    $.getJSON('/api/user/me.json', function(data) {
+        data['group_key'] = group_key
+        jQuery.post('/api/setsock', data, function() {
+            fetchGroups();
+        })
+    })
 };
 
 updateKnob = function(group_key, diff_minutes, message) {

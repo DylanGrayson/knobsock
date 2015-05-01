@@ -11,7 +11,7 @@ class Group(ndb.Model):
     knob = ndb.BooleanProperty()
     timein = ndb.DateTimeProperty()
     timeout = ndb.DateTimeProperty()
-    sock_owner = ndb.UserProperty()
+    sock_owner = ndb.StructuredProperty(UserProfile)
     sock_msg = ndb.StringProperty()
 
 ### Knob Functions ###

@@ -145,20 +145,14 @@ class SockHandler(RestHandler):
 
     def post(self):
         group = ndb.Key(urlsafe=str(self.request.get('group_key'))).get()
-<<<<<<< HEAD
+
         minutes = int(self.request.get('minutes'))
         group.knob = True
         query = model.UserProfile.query(model.UserProfile.userid == self.request.get('userid'))
         group.sock_owner = query.get()
         group.timein = datetime.datetime.today()
         group.timeout = group.timein + datetime.timedelta(0, 0, 0, 0, minutes)
-=======
-        group.knob = False
-        group.sock_owner = None
-        group.timein = None
-        group.timeout = None
-        group.sock_msg = None
->>>>>>> 6acff5d9efe009655a48550616a4e7c712f89dde
+
         group.put()
         self.redirect('/')
 

@@ -145,12 +145,15 @@ class SockHandler(RestHandler):
 
     def post(self):
         group = ndb.Key(urlsafe=str(self.request.get('group_key'))).get()
-        group.knob = False
-        group.sock_owner = None
-        group.timein = None
-        group.timeout = None
-        group.sock_msg = None
+        user = get_current_user()
+        minutes = int(self.request.get('minutes'))
+        group.knob = True
+        query = model.UserProfile.query(model.UserProfile.userid == user.user_id())
+        group.sock_owner = query.get()
+        group.timein = datetime.datetime.today()
+        group.timeout = group.timein + datetime.timedelta(0, 0, 0, 0, minutes)
         group.put()
+        self.redirect('/')
 
 APP = webapp2.WSGIApplication([
     ('/api/sock/remove', SockHandler),

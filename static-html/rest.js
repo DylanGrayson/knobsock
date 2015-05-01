@@ -44,6 +44,7 @@ fetchGroups = function() {
         }
 
         console.info('Fetched Groups!');
+        updateKnobList();
     });
 };
 
@@ -58,9 +59,12 @@ fetchUser = function() {
 removeSock = function(group_key) {
     $.getJSON('/api/user/me.json', function(data) {
         data['group_key'] = group_key
-        jQuery.post('/api/sock/remove', data, function() {
-            fetchGroups();
-        })
+        data['minutes'] = $('#' + group_key).val()
+        jQuery.post('/api/setsock', data);
+        //jQuery.post('/api/sock/remove', data, function() {
+        //    fetchGroups();
+        //})
+
     })
 };
 

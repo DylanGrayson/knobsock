@@ -91,7 +91,7 @@ class KnobHandler(RestHandler):
         group.timein = datetime.datetime.now()
         group.timeout = datetime.datetime.now() + datetime.timedelta(hours = -7, minutes = int(self.request.get('delta_minutes')))
         group.knob = True
-        group.knob_owner = users.get_current_user()
+        group.sock_owner = model.UserProfile.query(model.UserProfile.userid == self.request.get('userid')).get()
         group.sock_msg = self.request.get('message')
         group.put()
 
@@ -145,17 +145,25 @@ class SockHandler(RestHandler):
 
     def post(self):
         group = ndb.Key(urlsafe=str(self.request.get('group_key'))).get()
+<<<<<<< HEAD
         minutes = int(self.request.get('minutes'))
         group.knob = True
         query = model.UserProfile.query(model.UserProfile.userid == self.request.get('userid'))
         group.sock_owner = query.get()
         group.timein = datetime.datetime.today()
         group.timeout = group.timein + datetime.timedelta(0, 0, 0, 0, minutes)
+=======
+        group.knob = False
+        group.sock_owner = None
+        group.timein = None
+        group.timeout = None
+        group.sock_msg = None
+>>>>>>> 6acff5d9efe009655a48550616a4e7c712f89dde
         group.put()
         self.redirect('/')
 
 APP = webapp2.WSGIApplication([
-    ('/api/setsock', SockHandler),
+    ('/api/sock/remove', SockHandler),
     ('/api/user/invite', UserInviteHandler),
     (r'/api/user/.*', UserHandler),
     (r'/api/groups/create', GroupCreateHandler),

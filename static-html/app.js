@@ -12,7 +12,7 @@ changeGroup = function(index) {
 
 var slide_time = {};
 var KnobTimers = {}
-updateSocks = function() {
+updateKnobList = function() {
     //console.info("Updating Socks");
     var html;
     if (!current_groups.length){
@@ -46,7 +46,7 @@ updateSocks = function() {
             sock_context['inactive_knobs'].push({
                 'group_name': current_groups[i].name,
                 'group_minutes': 'minutes-' + current_groups[i].key,
-                'group_slider': current_groups[i].key,
+                'group_key': current_groups[i].key,
                 'time_remaining': 0,
                 'percentage_remaining': (current_groups[i].timein / current_groups[i].timeout) * 100
             })
@@ -83,7 +83,7 @@ init_sliders = function() {
 };
 
 appInit = function() {
-    //$.material.init();
+    $.material.init();
     fetchGroups();
     //updateKnobList();
     //setInterval(fetchGroups, 1000);

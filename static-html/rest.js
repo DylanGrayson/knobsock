@@ -56,24 +56,29 @@ fetchUser = function() {
     })
 }
 
-set_sock = function(group_key) {
+removeSock = function(group_key) {
     $.getJSON('/api/user/me.json', function(data) {
         data['group_key'] = group_key
         data['minutes'] = $('#' + group_key).val()
         jQuery.post('/api/setsock', data);
+        //jQuery.post('/api/sock/remove', data, function() {
+        //    fetchGroups();
+        //})
+
     })
 };
 
 updateKnob = function(group_key, diff_minutes, message) {
     date = new Date();
     new_date = new Date(date.getTime() + diff_minutes * 60000);
-    console.log(new_date.getTime());
+    if (diff_minutes == null){
+        diff_minutes = $('.slider#' + group_key).val();
+    }
     data = {
         'group': group_key,
         'delta_minutes': diff_minutes,
         'message': message
     }
-    console.info(new_date.toString());
     $.post('/api/knobs/update', data); 
 };
 

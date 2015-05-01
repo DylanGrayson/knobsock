@@ -123,6 +123,8 @@
                 <h5>The sock will be set for <span id="{{group_minutes}}" ></span> minutes</h5>
                 <a  class="btn btn-fab btn-raised btn-material-blue pull-right"><i class="mdi-action-lock-open" onclick="set_sock('{{group_slider}}')"></i></a>
               </div>
+              {{/each}}
+              </script>
               <script id="no-knobs-template" type="text/x-handlebars-template">
               <div class="well well-lg">
                 <div class="row">
@@ -131,7 +133,6 @@
                   </div>
                 </div>
               </div>
-              {{/each}}
               </script>
             </div>
           </div>
@@ -145,14 +146,14 @@
               </div>
               <div class="modal-body">
                 <br>
-                <form>
+                <form method="POST" action="/api/groups/create">
                   <div class="form-group-material-blue">
                     <input class="form-control floating-label thegroup" id="thegroup" type="text"  name ="group_name" placeholder="Start typing a group name">
                   </div>
                 </div>
                 <div class="modal-footer">
                   <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                  <input type="button" class="btn btn-material-blue" id ="savegroup" onclick="createGroup()" value="Add">
+                  <input type="submit" class="btn btn-material-blue" id ="savegroup" value="Add">
                 </div>
               </form>
               </div><!-- /.modal-content -->

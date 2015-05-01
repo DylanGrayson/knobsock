@@ -71,7 +71,9 @@ changeGroup = function(index) {
 set_sock = function(group_key) {
 	$.getJSON('/api/user/me.json', function(data) {
 		data['group_key'] = group_key
-		jQuery.post('/api/setsock', data)
+		jQuery.post('/api/setsock', data, function() {
+            fetchGroups();
+        })
 	})
 }
 
@@ -167,7 +169,7 @@ main_loop = function() {
     fetchGroups();
     //updateSocks();
     //init_sliders();
-    setInterval(fetchGroups, 1000);
+    //setInterval(fetchGroups, 1000);
     //setTimeout(updateSocks, 3000);
 };
 

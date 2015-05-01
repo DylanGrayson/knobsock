@@ -136,6 +136,7 @@ class GroupCreateHandler(RestHandler):
         group = model.Group()
         group.name = r
         group.members.append(usr)
+        group.knob = False
         group.put()
         self.redirect('/')
 

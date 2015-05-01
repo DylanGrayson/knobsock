@@ -21,6 +21,11 @@ updateKnobList = function() {
     // add active socks 
     var sock_context = {'active_knobs': []};
     for (var i = 0; i < current_groups.length; i++) {
+
+        if (current_groups[i].servertime < current_groups[i].timeout){
+                current_groups[i].knob = false;
+            }
+
         if (current_groups[i].knob == true) {
 
             sock_context['active_knobs'].push({
@@ -36,6 +41,7 @@ updateKnobList = function() {
                 },
                 countdown.HOURS | countdown.MINUTES | countdown.SECONDS
             );
+
         }
 
     }
@@ -87,7 +93,7 @@ appInit = function() {
     //updateKnobList();
     //setInterval(fetchGroups, 1000);
     //setInterval(updateKnobList, 5000);
-    setTimeout(updateKnobList, 1000);
+    //setTimeout(updateKnobList, 3000);
 };
 
 $(document).ready(function() {

@@ -87,7 +87,7 @@ appInit = function() {
     //updateKnobList();
     //setInterval(fetchGroups, 1000);
     //setInterval(updateKnobList, 5000);
-    //setTimeout(updateKnobList, 3000);
+    setTimeout(updateKnobList, 1000);
 };
 
 $(document).ready(function() {

@@ -21,7 +21,7 @@ handlers:
   static_files: static-html/dashboard.html
   upload: app
   login: required
-  auth_fail_action: unauthorized
+  auth_fail_action: redirect
 
 - url: (.*)/
   static_files: static-html\1/index.html

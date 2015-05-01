@@ -99,7 +99,7 @@ createGroup = function(){
     }); 
 };
 
-var slide_time = 15;
+var slide_time = {};
 updateSocks = function() {
     //console.info("Updating Socks");
     var html;
@@ -129,6 +129,12 @@ updateSocks = function() {
                 'time_remaining': 0,
                 'percentage_remaining': (current_groups[i].timein / current_groups[i].timeout) * 100
             })
+            var new_time = $('#' + current_groups[i].key).val()
+			if (new_time > 0) {
+				slide_time[i] = new_time;
+			}else{
+				slide_time[i] = 15;
+			}
         }
 	}
     var sock_html = active_sock_template(sock_context);
@@ -138,17 +144,19 @@ updateSocks = function() {
 
 init_sliders = function() {
 	for (var i = 0; i < current_groups.length; i++) {
-    	$('#' + current_groups[i].key).noUiSlider({
-	        start: slide_time,
-	        connect: 'lower',
-	        range: {
-	            'min': 5,
-	            'max': 120
-	        },
-	        format: wNumb({
-	            decimals: 0
-	        })
-    	});
+		if (current_groups[i].knob != true) {
+	    	$('#' + current_groups[i].key).noUiSlider({
+		        start: slide_time[i],
+		        connect: 'lower',
+		        range: {
+		            'min': 5,
+		            'max': 120
+		        },
+		        format: wNumb({
+		            decimals: 0
+		        })
+	    	});
+    	}
 	    $('#' + current_groups[i].key).Link('lower').to($('#minutes-' + current_groups[i].key));
 	}
 }
@@ -159,7 +167,7 @@ main_loop = function() {
     fetchGroups();
     //updateSocks();
     //init_sliders();
-    //setInterval(fetchGroups, 1000);
+    setInterval(fetchGroups, 1000);
     //setTimeout(updateSocks, 3000);
 };
 

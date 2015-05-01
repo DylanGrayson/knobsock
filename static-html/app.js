@@ -71,6 +71,7 @@ changeGroup = function(index) {
 set_sock = function(group_key) {
 	$.getJSON('/api/user/me.json', function(data) {
 		data['group_key'] = group_key
+        data['minutes'] = $('#' + group_key).val()
 		jQuery.post('/api/setsock', data, function() {
             fetchGroups();
         })

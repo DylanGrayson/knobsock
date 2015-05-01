@@ -147,6 +147,7 @@ class SockHandler(RestHandler):
         group = ndb.Key(urlsafe=str(self.request.get('group_key'))).get()
         group.knob = True
         group.sock_owner = model.UserProfile.query(model.UserProfile.userid == self.request.get('userid')).get()
+        group.timein = datetime.datetime.today()
         group.put()
 
 APP = webapp2.WSGIApplication([

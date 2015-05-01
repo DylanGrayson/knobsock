@@ -15,13 +15,9 @@ var member_source = $('#member_template').html();
 var member_template = Handlebars.compile(member_source);
 var member_context = {};
 
-var active_sock_source = $('#active-sock-template').html();
+var active_sock_source = $('#sock-template').html();
 var active_sock_template = Handlebars.compile(active_sock_source);
 var active_sock_context = {};
-
-var inactive_sock_source = $('#inactive-sock-template').html();
-var inactive_sock_template = Handlebars.compile(inactive_sock_source);
-var inactive_sock_context = {};
 
 var no_knobs_source = $('#no-knobs-template').html();
 
@@ -47,7 +43,7 @@ fetchGroups = function() {
             $('#member_list').html(member_html);
         }
 
-        console.info('Fetched Groups!');
+        //console.info('Fetched Groups!');
         updateSocks();
     });
 };
@@ -56,7 +52,6 @@ fetchUser = function() {
 	$.getJSON('/api/user/me.json', function(data) {
 		user_context = data;
 		var html = user_template(user_context);
-		console.log(html);
 		$('#user-greeting').append(html);
 	})
 }
@@ -104,60 +99,67 @@ createGroup = function(){
     }); 
 };
 
+var slide_time = 15;
 updateSocks = function() {
-    console.info("Updating Socks");
-    // clear out HTML
-    $('#sock-container').html('');
+    //console.info("Updating Socks");
+    var html;
     if (!current_groups.length){
         $('#sock-container').append(no_knobs_source);
     }
     // add active socks 
+    var sock_context = {'active_knobs': []};
     for (var i = 0; i < current_groups.length; i++) {
         if (current_groups[i].knob == true) {
-            var sock_context = {
-                'group_name': current_groups[i].name,
-                'time_remaining': Date.parse(current_groups[i].timeout) - Date.parse(current_groups[i].servertime)
-            };
-            var sock_html = active_sock_template(sock_context);
-            $('#sock-container').append(sock_html);
+
+            sock_context['active_knobs'].push(
+            	{'group_name': current_groups[i].name, 
+            	'time_remaining': Date.parse(current_groups[i].timeout) - Date.parse(current_groups[i].servertime)
+            });
         }
 
     }
     // add inactive socks
+    sock_context['inactive_knobs'] = [];
     for (var i = 0; i < current_groups.length; i++) {
         if (current_groups[i].knob != true) {
-            var sock_context = {
+            sock_context['inactive_knobs'].push({
                 'group_name': current_groups[i].name,
                 'group_minutes': 'minutes-' + current_groups[i].key,
                 'group_slider': current_groups[i].key,
                 'time_remaining': 0,
                 'percentage_remaining': (current_groups[i].timein / current_groups[i].timeout) * 100
-            }
-            var sock_html = inactive_sock_template(sock_context);
-            $('#sock-container').append(sock_html);
-        }
-        $('#' + current_groups[i].key).noUiSlider({
-            start: 15,
-            connect: 'lower',
-            range: {
-                'min': 5,
-                'max': 120
-            },
-            format: wNumb({
-                decimals: 0
             })
-        });
-        $('#' + current_groups[i].key).Link('lower').to($('#minutes-' + current_groups[i].key));
-    }
+        }
+	}
+    var sock_html = active_sock_template(sock_context);
+    $('#sock-container').html(sock_html);
+    init_sliders();
 };
+
+init_sliders = function() {
+	for (var i = 0; i < current_groups.length; i++) {
+    	$('#' + current_groups[i].key).noUiSlider({
+	        start: slide_time,
+	        connect: 'lower',
+	        range: {
+	            'min': 5,
+	            'max': 120
+	        },
+	        format: wNumb({
+	            decimals: 0
+	        })
+    	});
+	    $('#' + current_groups[i].key).Link('lower').to($('#minutes-' + current_groups[i].key));
+	}
+}
 
 main_loop = function() {
     //$.material.init();
-
     fetchUser();
     fetchGroups();
     //updateSocks();
-    setInterval(fetchGroups, 1000);
+    //init_sliders();
+    //setInterval(fetchGroups, 1000);
     //setTimeout(updateSocks, 3000);
 };
 

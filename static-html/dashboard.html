@@ -29,7 +29,7 @@
           </ul>
           <ul class="nav navbar-nav navbar-right">
             <script id="user-greeting-template" type="text/x-handlebars-template">
-                <a >Hi {{nickname}}</a>
+            <a >Hi {{nickname}}</a>
             </script>
             <li id="user-greeting"></li>
             <li><a href="/api/user/logout">Sign Out</a></li>
@@ -44,13 +44,13 @@
             <h3>Groups</h3>
             <div id="group-list">
               <script id="group-template" type="text/x-handlebars-template">
-                {{#if groups}}
-                  {{#each groups}}
-                    <button onclick="changeGroup({{@index}})" class="btn btn-default btn-lg btn-block btn-raised">{{name}}</button>
-                  {{/each}}
-                {{else}}
-                  <h5 class="text-center">You are not currently in a group. Ask your friends to add you to one, or create one yourself.</h5>
-                {{/if}}
+              {{#if groups}}
+              {{#each groups}}
+              <button onclick="changeGroup({{@index}})" class="btn btn-default btn-lg btn-block btn-raised">{{name}}</button>
+              {{/each}}
+              {{else}}
+              <h5 class="text-center">You are not currently in a group. Ask your friends to add you to one, or create one yourself.</h5>
+              {{/if}}
               </script>
             </div>
             <a class="btn btn-fab btn-raised btn-material-blue pull-right" data-toggle="modal" href='#group-modal'><i class="mdi-content-add"></i></a>
@@ -60,50 +60,52 @@
             <div id="member_list"></div>
             <script id="member_template" type="text/x-handlebars-template">
             {{#if curGroup}}
-              <h3>{{curGroup.name}}</h3>
-              <div class="list-group">
-                {{#each members}}
-                <div class="list-group-item">
-                  <div class="row-picture">
-                    <img class="circle" src="http://lorempixel.com/56/56/people/1" alt="icon">
-                  </div>
-                  <div class="row-content">
-                    <h4 class="list-group-item-heading">{{nickname}}</h4>
-                    <p class="list-group-item-text">Click to message?</p>
-                  </div>
+            <h3>{{curGroup.name}}</h3>
+            <div class="list-group">
+              {{#each members}}
+              <div class="list-group-item">
+                <div class="row-picture">
+                  <img class="circle" src="http://lorempixel.com/56/56/people/1" alt="icon">
+                </div>
+                <div class="row-content">
+                  <h4 class="list-group-item-heading">{{nickname}}</h4>
+                  <p class="list-group-item-text">Click to message?</p>
+                </div>
                 <div class="list-group-separator"></div>
               </div>
-                {{/each}}
-            {{else}}
+              {{/each}}
+              {{else}}
               <p class="text-center">No members. :(</p>
-            {{/if}}
+              {{/if}}
               <a class="btn btn-fab btn-raised btn-material-blue pull-right" data-toggle="modal" href='#user-modal' onclick="invite_init('{{curGroup.key}}')"><i class="mdi-content-add"></i></a>
-            </script>
-          </div>
-        </div>
-        <!-- Right Side -->
-        <div class="col-xs-12 col-sm-8 col-md-8 col-lg-8">
-          <div id="sock-container">
-          
-            <div id="active-sock-template">
-              <div class="well well-lg">
-                <div class="row">
-                  <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-                    <h3>{{group_name}}</h3>
-                  </div>
-                  <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 text-right">
-                    <h3>Time Remaining: {{time_remaining}}</h3>
-                  </div>
-                </div>
-                <div class="progress progress-striped active">
-                  <div class="progress-bar progress-bar-material-blue" style="width: 45%"></div>
-                </div>
-                <a class="btn btn-fab btn-raised btn-material-blue pull-right"><i class="mdi-action-lock-outline"></i></a>
-              </div>
-              <br>
+              </script>
             </div>
-
-            <script id="inactive-sock-template" type="text/x-handlebars-template">
+          </div>
+          <!-- Right Side -->
+          <div class="col-xs-12 col-sm-8 col-md-8 col-lg-8">
+            <div id="sock-container">
+              
+              <script id="sock-template" type="text/x-handlebars-template">
+              {{#each active_knobs}}
+              <div id="active-sock-template">
+                <div class="well well-lg">
+                  <div class="row">
+                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                      <h3>{{group_name}}</h3>
+                    </div>
+                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 text-right">
+                      <h3>Time Remaining: {{time_remaining}}</h3>
+                    </div>
+                  </div>
+                  <div class="progress progress-striped active">
+                    <div class="progress-bar progress-bar-material-blue" style="width: 45%"></div>
+                  </div>
+                  <a class="btn btn-fab btn-raised btn-material-blue pull-right"><i class="mdi-action-lock-outline"></i></a>
+                </div>
+                <br>
+              </div>
+              {{/each}}
+              {{#each inactive_knobs}}
               <div class="well well-lg">
                 <div class="row">
                   <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
@@ -121,9 +123,7 @@
                 <h5>The sock will be set for <span id="{{group_minutes}}" ></span> minutes</h5>
                 <a  class="btn btn-fab btn-raised btn-material-blue pull-right"><i class="mdi-action-lock-open" onclick="set_sock('{{group_slider}}')"></i></a>
               </div>
-
-
-            <script id="no-knobs-template" type="text/x-handlebars-template">
+              <script id="no-knobs-template" type="text/x-handlebars-template">
               <div class="well well-lg">
                 <div class="row">
                   <div class="col-xs-offset-2 col-xs-8 text-center">
@@ -131,76 +131,76 @@
                   </div>
                 </div>
               </div>
-            </script>
-
+              {{/each}}
+              </script>
+            </div>
           </div>
         </div>
-      </div>
-      <div class="modal fade" id="group-modal">
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-              <h4 class="modal-title">Create a Group</h4>
-            </div>
-            <div class="modal-body">
-              <br>
-              <form>
-              <div class="form-group-material-blue">
-                <input class="form-control floating-label thegroup" id="thegroup" type="text"  name ="group_name" placeholder="Start typing a group name">
+        <div class="modal fade" id="group-modal">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Create a Group</h4>
               </div>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-              <input type="button" class="btn btn-material-blue" id ="savegroup" onclick="createGroup()" value="Add">
-            </div>
-            </form>
-            </div><!-- /.modal-content -->
-            </div><!-- /.modal-dialog -->
-            </div><!-- /.modal -->
-            <div class="modal fade" id="user-modal">
-              <div class="modal-dialog">
-                <div class="modal-content">
-                  <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title">Add A Friend</h4>
+              <div class="modal-body">
+                <br>
+                <form>
+                  <div class="form-group-material-blue">
+                    <input class="form-control floating-label thegroup" id="thegroup" type="text"  name ="group_name" placeholder="Start typing a group name">
                   </div>
-                  <div class="modal-body">
-                    <br>
-                    <form method='POST' action='/api/user/invite'>
-                    <div class="form-group-material-blue">
-                      <input class="form-control floating-label" id="focusedInput" name="user_name_search" type="text" placeholder="Start typing their email or username.">
-                    </div>
-                  </div>
-                  <div class="modal-footer">
-                    <input type="hidden" name="group_key" id="group_key" value=''>
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <input type="submit" class="btn btn-material-blue" value="Add Friend">
-                  </div>
-                  </form>
-                  </div><!-- /.modal-content -->
-                  </div><!-- /.modal-dialog -->
-                  </div><!-- /.modal -->
                 </div>
-                <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js" type="text/javascript"></script>
-                <!-- Latest compiled and minified JavaScript -->
-                <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js" type="text/javascript"></script>
-                <script src="js/ripples.min.js" type="text/javascript"></script>
-                <script src="js/material.min.js" type="text/javascript"></script>
-                <script src="js/handlebars-v3.0.1.js" type="text/javascript"></script>
-                <script src="js/jquery.nouislider.all.js"></script>
-                <script src="app.js" ></script>
-                <!--<script>
-                //var source = $("#template").html();
-                //var template = Handlebars.compile(source);
-                //var context = {title: "Knobsock!"};
-                // var html = template(context);
-                $(document).ready(function() {
-                // This command is used to initialize some elements and make them work properly
-                $.material.init();
-                //document.write(html);
-                $('.select-time').selectpicker();
-                });
-                </script>-->
-              </body>
-            </html>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                  <input type="button" class="btn btn-material-blue" id ="savegroup" onclick="createGroup()" value="Add">
+                </div>
+              </form>
+              </div><!-- /.modal-content -->
+              </div><!-- /.modal-dialog -->
+              </div><!-- /.modal -->
+              <div class="modal fade" id="user-modal">
+                <div class="modal-dialog">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                      <h4 class="modal-title">Add A Friend</h4>
+                    </div>
+                    <div class="modal-body">
+                      <br>
+                      <form method='POST' action='/api/user/invite'>
+                        <div class="form-group-material-blue">
+                          <input class="form-control floating-label" id="focusedInput" name="user_name_search" type="text" placeholder="Start typing their email or username.">
+                        </div>
+                      </div>
+                      <div class="modal-footer">
+                        <input type="hidden" name="group_key" id="group_key" value=''>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <input type="submit" class="btn btn-material-blue" value="Add Friend">
+                      </div>
+                    </form>
+                    </div><!-- /.modal-content -->
+                    </div><!-- /.modal-dialog -->
+                    </div><!-- /.modal -->
+                  </div>
+                  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js" type="text/javascript"></script>
+                  <!-- Latest compiled and minified JavaScript -->
+                  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js" type="text/javascript"></script>
+                  <script src="js/ripples.min.js" type="text/javascript"></script>
+                  <script src="js/material.min.js" type="text/javascript"></script>
+                  <script src="js/handlebars-v3.0.1.js" type="text/javascript"></script>
+                  <script src="js/jquery.nouislider.all.js"></script>
+                  <script src="app.js" ></script>
+                  <!--<script>
+                  //var source = $("#template").html();
+                  //var template = Handlebars.compile(source);
+                  //var context = {title: "Knobsock!"};
+                  // var html = template(context);
+                  $(document).ready(function() {
+                  // This command is used to initialize some elements and make them work properly
+                  $.material.init();
+                  //document.write(html);
+                  $('.select-time').selectpicker();
+                  });
+                  </script>-->
+                </body>
+              </html>

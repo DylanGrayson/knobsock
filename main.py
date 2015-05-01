@@ -88,7 +88,7 @@ class KnobHandler(RestHandler):
         group = key.get()
 
         group.timein = datetime.datetime.now()
-        group.timeout = datetime.datetime.strptime(self.request.get('new_time'), "%Y-%m-%dT%H:%M:%S.%fZ" )
+        group.timeout = datetime.datetime.now() + datetime.timedelta(hours = -7, minutes = int(self.request.get('delta_minutes')))
         group.knob = True
         group.knob_owner = users.get_current_user()
         group.sock_msg = self.request.get('message')

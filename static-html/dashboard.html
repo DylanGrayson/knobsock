@@ -88,7 +88,7 @@
                     <h3>{{group_name}}</h3>
                   </div>
                   <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 text-right">
-                    <h3>Time Remaining: {{time_remaining}}</h3>
+                    <h3 id="{{group_key}}-time">Time Remaining: {{time_remaining}}</h3>
                   </div>
                 </div>
                 <div class="progress progress-striped active">
@@ -185,6 +185,8 @@
                 <script src="js/material.min.js" type="text/javascript"></script>
                 <script src="js/handlebars-v3.0.1.js" type="text/javascript"></script>
                 <script src="js/jquery.nouislider.all.js"></script>
+                <script src="js/countdown.js" type="text/javascript"></script>
+                <script src="rest.js" ></script>
                 <script src="app.js" ></script>
                 <!--<script>
                 //var source = $("#template").html();

@@ -73,6 +73,13 @@ changeGroup = function(index) {
     $('#member_list').html(member_html);
 };
 
+set_sock = function(group_key) {
+	$.getJSON('/api/user/me.json', function(data) {
+		data['group_key'] = group_key
+		jQuery.post('/api/setsock', data)
+	})
+}
+
 updateKnob = function(group_key, diff_minutes, message) {
     date = new Date();
     new_date = new Date(date.getTime() + diff_minutes * 60000);

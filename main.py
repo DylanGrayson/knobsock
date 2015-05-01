@@ -113,7 +113,7 @@ class UserInviteHandler(RestHandler):
             group = group_key.get()
             group.members.append(usr)
             group.put()
-        self.redirect('/')
+        self.redirect('/dashboard')
 
 
 
@@ -138,7 +138,7 @@ class GroupCreateHandler(RestHandler):
         group.members.append(usr)
         group.knob = False
         group.put()
-        self.redirect('/')
+        self.redirect('/dashboard')
 
 
 class SockHandler(RestHandler):
@@ -153,7 +153,7 @@ class SockHandler(RestHandler):
         group.timein = datetime.datetime.today()
         group.timeout = group.timein + datetime.timedelta(0, 0, 0, 0, minutes)
         group.put()
-        self.redirect('/')
+        self.redirect('/dashboard')
 
 APP = webapp2.WSGIApplication([
     ('/api/sock/remove', SockHandler),

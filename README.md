@@ -1,8 +1,7 @@
 # knobsock
 The sock is on the knob
 
-We are up and running at http://knobsock1.appspot.com/
-
+Application to let your roommate know they shouldn't come in right now.
 
 Follow google app engine directions to install then use
 **appcfg.py -A knobsock1 update knobsock/**
